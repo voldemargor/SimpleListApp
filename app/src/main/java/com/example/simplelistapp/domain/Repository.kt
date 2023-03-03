@@ -2,23 +2,26 @@ package com.example.simplelistapp.domain
 
 interface Repository {
 
-    fun addListCard(listCard: ListCard)
+    // Folder cases
+    fun addFolder(folder: ItemsFolder)
 
-    fun getListCard(listCardId:Int) : ListCard
+    fun getFolder(folderId: Int): ItemsFolder
 
-    fun editListCard(newListCard: ListCard)
+    fun editFolder(folder: ItemsFolder)
 
-    fun deleteListCard(listCard: ListCard)
+    fun deleteFolder(folder: ItemsFolder)
 
-    fun getItemsForListCard(listCardId: Int): List<ListItem>
+    fun getFoldersList(): List<ItemsFolder>
 
+    // Item cases
+    fun addItem(item: Item)
 
-    fun addListItem(listItem: ListItem)
+    fun getItem(itemId: Int): Item
 
-    fun getListItem(itemId: Int): ListItem
+    fun editItem(item: Item)
 
-    fun editListItem(newListItem: ListItem)
+    fun deleteItem(item: Item)
 
-    fun deleteListItem(listItem: ListItem)
+    fun getItemsForFolder(folderId: Int): List<Item>
 
 }
