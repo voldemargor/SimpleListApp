@@ -4,7 +4,7 @@ data class Item(
     val folderId: Int,
     val name: String,
     val count: Int,
-    val isEnabled: Boolean,
+    val enabled: Boolean = true,
     var id: Int = UNDEFINED_ID
 ) {
 

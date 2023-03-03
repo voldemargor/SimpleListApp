@@ -2,7 +2,7 @@ package com.example.simplelistapp.domain
 
 data class ItemsFolder(
     val name: String,
-    val itemsCount: Int,
+    val itemsCount: Int = 0,
     var id: Int = UNDEFINED_ID
 ) {
 

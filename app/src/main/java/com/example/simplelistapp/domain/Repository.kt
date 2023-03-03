@@ -1,5 +1,7 @@
 package com.example.simplelistapp.domain
 
+import androidx.lifecycle.LiveData
+
 interface Repository {
 
     // Folder cases
@@ -11,7 +13,7 @@ interface Repository {
 
     fun deleteFolder(folder: ItemsFolder)
 
-    fun getFoldersList(): List<ItemsFolder>
+    fun getFoldersList(): LiveData<List<ItemsFolder>>
 
     // Item cases
     fun addItem(item: Item)
@@ -22,6 +24,6 @@ interface Repository {
 
     fun deleteItem(item: Item)
 
-    fun getItemsForFolder(folderId: Int): List<Item>
+    fun getItemsForFolder(folderId: Int): LiveData<List<Item>>
 
 }
