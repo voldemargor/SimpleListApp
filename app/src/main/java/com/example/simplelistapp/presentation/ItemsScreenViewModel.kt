@@ -11,7 +11,7 @@ class ItemsScreenViewModel : ViewModel() {
     private val editItemUseCase = EditItemUseCase(repository)
     private val deleteItemUseCase = DeleteItemUseCase(repository)
 
-    private lateinit var folder: ItemsFolder
+    private lateinit var folder: Folder
 
     val itemsList = getItemsListUseCase.getItemsForFolder(1)
 

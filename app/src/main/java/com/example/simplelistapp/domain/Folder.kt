@@ -1,6 +1,6 @@
 package com.example.simplelistapp.domain
 
-data class ItemsFolder(
+data class Folder(
     val name: String,
     val itemsCount: Int = 0,
     var id: Int = UNDEFINED_ID

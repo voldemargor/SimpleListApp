@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 
 class GetFoldersListUseCase(private val repository: Repository) {
 
-    fun getFoldersList() : LiveData<List<ItemsFolder>> {
+    fun getFoldersList() : LiveData<List<Folder>> {
         return repository.getFoldersList()
     }
 

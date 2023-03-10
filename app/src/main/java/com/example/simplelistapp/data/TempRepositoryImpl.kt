@@ -2,16 +2,16 @@ package com.example.simplelistapp.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.simplelistapp.domain.ItemsFolder
+import com.example.simplelistapp.domain.Folder
 import com.example.simplelistapp.domain.Item
 import com.example.simplelistapp.domain.Repository
 
 object TempRepositoryImpl : Repository {
 
-    private val foldersLD = MutableLiveData<List<ItemsFolder>>()
+    private val foldersLD = MutableLiveData<List<Folder>>()
     private val itemsLD = MutableLiveData<List<Item>>()
 
-    private val folders = mutableListOf<ItemsFolder>()
+    private val folders = mutableListOf<Folder>()
 
     private val compareById = Comparator<Item> { p0, p1 -> p0.id.compareTo(p1.id) }
     private val compareByEnable = Comparator<Item> { p0, p1 -> p0.enabled.compareTo(p1.enabled) }
@@ -21,43 +21,45 @@ object TempRepositoryImpl : Repository {
     private var autoincrementItemsId = 0
 
     init {
-//        for (i in 1..3) {
-//            val folder = ItemsFolder("Folder Num. $i")
-//            addFolder(folder)
-//        }
-
-        for (i in 1..3) {
-            val item = Item(1, "Item$i", 1)
-            addItem(item)
+        // Генерим фолдеры
+        for (i in 0..4) {
+            val folder = Folder("Folder Num. $i")
+            addFolder(folder)
         }
 
-//        TODO("Сгенерить айтемы")
+        // Генерим айтемы для фолдеров
+        for (f in 0 until folders.size) {
+            for (i in 1..3) {
+                val item = Item(folderId = f, "Folder$f-Item$i", 1)
+                addItem(item)
+            }
+        }
     }
 
-    override fun addFolder(folder: ItemsFolder) {
+    override fun addFolder(folder: Folder) {
         folder.id = autoincrementFolderId++
         folders.add(folder)
         updateFoldersList()
     }
 
-    override fun getFolder(folderId: Int): ItemsFolder {
+    override fun getFolder(folderId: Int): Folder {
         return folders.find { it.id == folderId }
             ?: throw RuntimeException("Folder with id $folderId not found")
     }
 
-    override fun editFolder(folder: ItemsFolder) {
+    override fun editFolder(folder: Folder) {
         val oldFolder = getFolder(folder.id)
         folders.remove(oldFolder)
         folders.add(folder)
         updateFoldersList()
     }
 
-    override fun deleteFolder(folder: ItemsFolder) {
+    override fun deleteFolder(folder: Folder) {
         folders.remove(folder)
         updateFoldersList()
     }
 
-    override fun getFoldersList(): LiveData<List<ItemsFolder>> {
+    override fun getFoldersList(): LiveData<List<Folder>> {
         return foldersLD
     }
 
