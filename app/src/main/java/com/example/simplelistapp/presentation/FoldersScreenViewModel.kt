@@ -10,11 +10,16 @@ class FoldersScreenViewModel : ViewModel() {
     private val repository = TempRepositoryImpl
 
     private val getFoldersListUseCase = GetFoldersListUseCase(repository)
+    private val addFolderUseCase = AddFolderUseCase(repository)
     private val editFolderUseCase = EditFolderUseCase(repository)
     private val deleteFolderUseCase = DeleteFolderUseCase(repository)
     private val getItemsForFolderUseCase = GetItemsForFolderUseCase(repository)
 
     val foldersList = getFoldersListUseCase.getFoldersList()
+
+    fun addFolder(folder: Folder) {
+        addFolderUseCase.addFolder(folder)
+    }
 
     fun editFolder(folder: Folder) {
         editFolderUseCase.editFolder(folder)

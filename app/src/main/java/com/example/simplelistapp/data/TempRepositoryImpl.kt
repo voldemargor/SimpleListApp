@@ -1,5 +1,6 @@
 package com.example.simplelistapp.data
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.simplelistapp.domain.Folder
@@ -23,7 +24,7 @@ object TempRepositoryImpl : Repository {
     init {
         // Генерим фолдеры
         for (i in 0..4) {
-            val folder = Folder("Folder Num. $i")
+            val folder = Folder("Folder Num. $i", id = i)
             addFolder(folder)
         }
 
@@ -43,6 +44,7 @@ object TempRepositoryImpl : Repository {
     }
 
     override fun getFolder(folderId: Int): Folder {
+        Log.d("mylog", "getFolder: $folderId")
         return folders.find { it.id == folderId }
             ?: throw RuntimeException("Folder with id $folderId not found")
     }

@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">SimpleListApp</string>
     <string name="add_new_item_description">Add new item</string>
+    <string name="hint_new_folder">Новый список</string>
+    <string name="btn_cancel">ОТМЕНИТЬ</string>
+    <string name="btn_save">СОХРАНИТЬ</string>
+    <string name="btn_create">СОЗДАТЬ</string>
+    <string name="error_folder_name">Введите название списка</string>
+    <string name="defaul_folder_name">Новый список</string>
 </resources>
