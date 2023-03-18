@@ -5,13 +5,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.widget.Button
-import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.simplelistapp.R
+import com.example.simplelistapp.databinding.ActivityEditFolderBinding
 import com.example.simplelistapp.domain.Folder
-import com.google.android.material.textfield.TextInputLayout
 
 class EditFolderActivity : AppCompatActivity() {
 
@@ -19,21 +17,18 @@ class EditFolderActivity : AppCompatActivity() {
     private var screenMode = MODE_UNKNOWN
     private var folderId = Folder.UNDEFINED_ID
 
-    private lateinit var tilName: TextInputLayout
-    private lateinit var etName: EditText
-    private lateinit var btnSave: Button
-    private lateinit var btnCancel: Button
+    private lateinit var binding: ActivityEditFolderBinding
 
     private var currentFolder: Folder? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_edit_folder)
+        binding = ActivityEditFolderBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         parseIntent()
 
         viewModel = ViewModelProvider(this).get(EditFolderViewModel::class.java)
-        initViews()
 
         observeCommonViewModel()
         addCommonListeners()
@@ -43,13 +38,13 @@ class EditFolderActivity : AppCompatActivity() {
             MODE_EDIT -> launchEditMode()
         }
 
-        tilName.requestFocus()
+        binding.tilName.requestFocus()
     }
 
     private fun launchAddMode() {
-        btnSave.text = getString(R.string.btn_create)
-        btnSave.setOnClickListener() {
-            val name = etName.text.trim().toString()
+        binding.btnSave.text = getString(R.string.btn_create)
+        binding.btnSave.setOnClickListener() {
+            val name = binding.etName.text?.trim().toString()
 
             // TODO так надо будет в итоге, а пока покажу ошибку
              // if (name.isBlank()) name = getString(R.string.defaul_folder_name)
@@ -62,29 +57,22 @@ class EditFolderActivity : AppCompatActivity() {
     }
 
     private fun launchEditMode() {
-        btnSave.text = getString(R.string.btn_save)
+        binding.btnSave.text = getString(R.string.btn_save)
 
         viewModel.getFolder(folderId)
         viewModel.currentFolder.observe(this) {
             currentFolder = it
-            etName.setText(it.name)
-            etName.setSelection(etName.length())
+            binding.etName.setText(it.name)
+            binding.etName.setSelection(binding.etName.length())
         }
 
-        btnSave.setOnClickListener() {
-            val name = etName.text.trim().toString()
+        binding.btnSave.setOnClickListener() {
+            val name = binding.etName.text?.trim().toString()
             if (name.isBlank())
                 viewModel.displayErrorInputName()
             else
                 viewModel.editFolder(name)
         }
-    }
-
-    private fun initViews() {
-        tilName = findViewById(R.id.text_input_layout_name)
-        etName = findViewById(R.id.edit_text_name)
-        btnSave = findViewById(R.id.button_save)
-        btnCancel = findViewById(R.id.button_cancel)
     }
 
     private fun parseIntent() {
@@ -107,8 +95,8 @@ class EditFolderActivity : AppCompatActivity() {
     private fun observeCommonViewModel() {
         // Ошибка имени
         viewModel.errorInputName.observe(this) {
-            tilName.error = null
-            if (it) tilName.error = getString(R.string.error_folder_name)
+            binding.tilName.error = null
+            if (it) binding.tilName.error = getString(R.string.error_folder_name)
         }
         // Закрыть экран
         viewModel.shouldCloseScreen.observe(this) {
@@ -117,7 +105,7 @@ class EditFolderActivity : AppCompatActivity() {
     }
 
     private fun addCommonListeners() {
-        etName.addTextChangedListener(object : TextWatcher {
+        binding.etName.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -127,7 +115,7 @@ class EditFolderActivity : AppCompatActivity() {
             override fun afterTextChanged(p0: Editable?) {}
         })
 
-        btnCancel.setOnClickListener() {
+        binding.btnCancel.setOnClickListener() {
             viewModel.exitScreen()
         }
     }

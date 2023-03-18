@@ -8,17 +8,20 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.simplelistapp.R
+import com.example.simplelistapp.databinding.ActivityMainBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModel: FoldersScreenViewModel
     private lateinit var rvAdapter: FoldersListAdapter
-    private lateinit var rvFoldersList: RecyclerView
+
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         viewModel = ViewModelProvider(this).get(FoldersScreenViewModel::class.java)
 
@@ -35,9 +38,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        rvFoldersList = findViewById(R.id.rv_folders_list)
         rvAdapter = FoldersListAdapter()
-        rvFoldersList.adapter = rvAdapter
+        binding.rvFoldersList.adapter = rvAdapter
 
         setupOnClickListener()
         setupOnLongClickListener()
@@ -78,7 +80,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         val itemTouchHelper = ItemTouchHelper(callback)
-        itemTouchHelper.attachToRecyclerView(rvFoldersList)
+        itemTouchHelper.attachToRecyclerView(binding.rvFoldersList)
     }
 
 

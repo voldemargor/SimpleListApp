@@ -1,12 +1,16 @@
 package com.example.simplelistapp.presentation
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.simplelistapp.R
+import androidx.appcompat.app.AppCompatActivity
+import com.example.simplelistapp.databinding.ActivityItemsListBinding
 
 class ItemsListActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityItemsListBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_items_list)
+        binding = ActivityItemsListBinding.inflate(layoutInflater)
+        setContentView(binding.root)
     }
 }
