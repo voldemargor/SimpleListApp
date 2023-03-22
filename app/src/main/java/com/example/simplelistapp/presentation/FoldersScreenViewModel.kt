@@ -1,36 +1,33 @@
 package com.example.simplelistapp.presentation
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import com.example.simplelistapp.data.TempRepositoryImpl
+import androidx.lifecycle.viewModelScope
+import com.example.simplelistapp.data.DbRepositoryImpl
 import com.example.simplelistapp.domain.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 
-class FoldersScreenViewModel : ViewModel() {
+class FoldersScreenViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val repository = TempRepositoryImpl
+    private val repository = DbRepositoryImpl(application)
 
     private val getFoldersListUseCase = GetFoldersListUseCase(repository)
-    private val addFolderUseCase = AddFolderUseCase(repository)
-    private val editFolderUseCase = EditFolderUseCase(repository)
     private val deleteFolderUseCase = DeleteFolderUseCase(repository)
     private val getItemsForFolderUseCase = GetItemsForFolderUseCase(repository)
 
     val foldersList = getFoldersListUseCase.getFoldersList()
 
-    fun addFolder(folder: Folder) {
-        addFolderUseCase.addFolder(folder)
-    }
-
-    fun editFolder(folder: Folder) {
-        editFolderUseCase.editFolder(folder)
-    }
-
     fun deleteFolder(folder: Folder) {
-        deleteFolderUseCase.deleteFolder(folder)
+        viewModelScope.launch {
+            deleteFolderUseCase.deleteFolder(folder)
+        }
     }
 
     fun getItemsForFolder(folderId: Int): LiveData<List<Item>> {
         return getItemsForFolderUseCase.getItemsForFolder(folderId)
     }
-
 }

@@ -21,42 +21,42 @@ object TempRepositoryImpl : Repository {
     private var autoincrementFolderId = 0
     private var autoincrementItemsId = 0
 
-    init {
-        // Генерим фолдеры
-        for (i in 0..4) {
-            val folder = Folder("Folder Num. $i", id = i)
-            addFolder(folder)
-        }
+//    init {
+//        // Генерим фолдеры
+//        for (i in 0..4) {
+//            val folder = Folder("Folder Num. $i", id = i)
+//            addFolder(folder)
+//        }
+//
+//        // Генерим айтемы для фолдеров
+//        for (f in 0 until folders.size) {
+//            for (i in 1..3) {
+//                val item = Item(folderId = f, "Folder$f-Item$i", 1)
+//                addItem(item)
+//            }
+//        }
+//    }
 
-        // Генерим айтемы для фолдеров
-        for (f in 0 until folders.size) {
-            for (i in 1..3) {
-                val item = Item(folderId = f, "Folder$f-Item$i", 1)
-                addItem(item)
-            }
-        }
-    }
-
-    override fun addFolder(folder: Folder) {
+    override suspend fun addFolder(folder: Folder) {
         folder.id = autoincrementFolderId++
         folders.add(folder)
         updateFoldersList()
     }
 
-    override fun getFolder(folderId: Int): Folder {
+    override suspend fun getFolder(folderId: Int): Folder {
         Log.d("mylog", "getFolder: $folderId")
         return folders.find { it.id == folderId }
             ?: throw RuntimeException("Folder with id $folderId not found")
     }
 
-    override fun editFolder(folder: Folder) {
+    override suspend fun editFolder(folder: Folder) {
         val oldFolder = getFolder(folder.id)
         folders.remove(oldFolder)
         folders.add(folder)
         updateFoldersList()
     }
 
-    override fun deleteFolder(folder: Folder) {
+    override suspend fun deleteFolder(folder: Folder) {
         folders.remove(folder)
         updateFoldersList()
     }
@@ -65,25 +65,25 @@ object TempRepositoryImpl : Repository {
         return foldersLD
     }
 
-    override fun addItem(item: Item) {
+    override suspend fun addItem(item: Item) {
         item.id = autoincrementItemsId++
         items.add(item)
         updateItemsList(item.folderId)
     }
 
-    override fun getItem(itemId: Int): Item {
+    override suspend fun getItem(itemId: Int): Item {
         return items.find { it.id == itemId }
             ?: throw RuntimeException("Item with id $itemId not found")
     }
 
-    override fun editItem(item: Item) {
+    override suspend fun editItem(item: Item) {
         val oldItem = getItem(item.id)
         items.remove(oldItem)
         items.add(item)
         updateItemsList(item.folderId)
     }
 
-    override fun deleteItem(item: Item) {
+    override suspend fun deleteItem(item: Item) {
         items.remove(item)
         updateItemsList(item.folderId)
     }

@@ -1,18 +1,24 @@
 package com.example.simplelistapp.presentation
 
+import android.app.Application
 import android.util.Log
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.example.simplelistapp.data.TempRepositoryImpl
+import androidx.lifecycle.viewModelScope
+import com.example.simplelistapp.data.DbRepositoryImpl
 import com.example.simplelistapp.domain.AddFolderUseCase
 import com.example.simplelistapp.domain.EditFolderUseCase
 import com.example.simplelistapp.domain.Folder
 import com.example.simplelistapp.domain.GetFolderUseCase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 
-class EditFolderViewModel : ViewModel() {
+class EditFolderViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val repository = TempRepositoryImpl
+    private val repository = DbRepositoryImpl(application)
     private val getFolderUseCase = GetFolderUseCase(repository)
     private val addFolderUseCase = AddFolderUseCase(repository)
     private val editFolderUseCase = EditFolderUseCase(repository)
@@ -33,7 +39,9 @@ class EditFolderViewModel : ViewModel() {
         get() = _shouldCloseScreen
 
     fun getFolder(id: Int) {
-        _currentFolder.value = getFolderUseCase.getFolder(id)
+        viewModelScope.launch {
+            _currentFolder.value = getFolderUseCase.getFolder(id)
+        }
     }
 
     fun addFolder(name: String?) {
@@ -42,9 +50,11 @@ class EditFolderViewModel : ViewModel() {
         val folderName = parseName(name)
         val inputsValid = validateInput(folderName)
         if (inputsValid) {
-            val newFolder = Folder(parseName(folderName))
-            addFolderUseCase.addFolder(newFolder)
-            exitScreen()
+            viewModelScope.launch {
+                val newFolder = Folder(parseName(folderName))
+                addFolderUseCase.addFolder(newFolder)
+                exitScreen()
+            }
         }
     }
 
@@ -53,10 +63,12 @@ class EditFolderViewModel : ViewModel() {
         val inputsValid = validateInput(folderName)
         if (inputsValid) {
             _currentFolder.value?.let {
-                // id объекта сохраняется, так как делаем копию
-                val newFolder = it.copy(name = folderName)
-                editFolderUseCase.editFolder(newFolder)
-                exitScreen()
+                viewModelScope.launch {
+                    // id объекта сохраняется, так как делаем копию
+                    val newFolder = it.copy(name = folderName)
+                    editFolderUseCase.editFolder(newFolder)
+                    exitScreen()
+                }
             }
         }
     }
@@ -84,6 +96,4 @@ class EditFolderViewModel : ViewModel() {
         }
         return true
     }
-
-
 }

@@ -4,26 +4,24 @@ import androidx.lifecycle.LiveData
 
 interface Repository {
 
-    // Folder cases
-    fun addFolder(folder: Folder)
-
-    fun getFolder(folderId: Int): Folder
-
-    fun editFolder(folder: Folder)
-
-    fun deleteFolder(folder: Folder)
-
     fun getFoldersList(): LiveData<List<Folder>>
 
-    // Item cases
-    fun addItem(item: Item)
-
-    fun getItem(itemId: Int): Item
-
-    fun editItem(item: Item)
-
-    fun deleteItem(item: Item)
-
     fun getItemsForFolder(folderId: Int): LiveData<List<Item>>
+
+    suspend fun getFolder(folderId: Int): Folder
+
+    suspend fun getItem(itemId: Int): Item
+
+    suspend fun addFolder(folder: Folder)
+
+    suspend fun addItem(item: Item)
+
+    suspend fun editFolder(folder: Folder)
+
+    suspend fun editItem(item: Item)
+
+    suspend fun deleteFolder(folder: Folder)
+
+    suspend fun deleteItem(item: Item)
 
 }

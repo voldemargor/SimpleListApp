@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
             rvAdapter.submitList(it)
         }
 
-        findViewById<FloatingActionButton>(R.id.fab_add_folder).setOnClickListener() {
+        binding.fabAddFolder.setOnClickListener() {
             startActivity(EditFolderActivity.newIntentAddFolder(this))
         }
 
@@ -48,9 +48,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupOnClickListener() {
         rvAdapter.onFolderClickListener = {
-            val items = viewModel.getItemsForFolder(it.id).value
-            Log.d("mylog", "Folder ID: ${it.id}")
-            Log.d("mylog", items.toString())
+//            val items = viewModel.getItemsForFolder(it.id).value
+//            Log.d("mylog", "Folder ID: ${it.id}")
+//            Log.d("mylog", items.toString())
+            startActivity(ItemsListActivity.newIntentItemsList(this, folderId = it.id))
         }
     }
 
