@@ -24,39 +24,44 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this).get(FoldersScreenViewModel::class.java)
 
         setupRecyclerView()
-
-        viewModel.foldersList.observe(this) {
-            rvAdapter.submitList(it)
-        }
-
-        binding.fabAddFolder.setOnClickListener() {
-            startActivity(EditFolderActivity.newIntentAddFolder(this))
-        }
-
+        observeViewModel()
+        setFabListener()
     }
 
     private fun setupRecyclerView() {
         rvAdapter = FoldersListAdapter()
         binding.rvFoldersList.adapter = rvAdapter
 
-        setupOnClickListener()
-        setupOnLongClickListener()
-        setupSwipeListener()
+        setOnClickListener()
+        setOnLongClickListener()
+        setSwipeListener()
     }
 
-    private fun setupOnClickListener() {
+    private fun observeViewModel() {
+        viewModel.foldersList.observe(this) {
+            rvAdapter.submitList(it)
+        }
+    }
+
+    private fun setFabListener() {
+        binding.fabAddFolder.setOnClickListener() {
+            startActivity(EditFolderActivity.newIntentAddFolder(this))
+        }
+    }
+
+    private fun setOnClickListener() {
         rvAdapter.onFolderClickListener = {
             startActivity(ItemsListActivity.newIntentItemsList(this, it.id, it.name))
         }
     }
 
-    private fun setupOnLongClickListener() {
+    private fun setOnLongClickListener() {
         rvAdapter.onFolderLongClickListener = {
             startActivity(EditFolderActivity.newIntentEditFolder(this, it.id))
         }
     }
 
-    private fun setupSwipeListener() {
+    private fun setSwipeListener() {
         val callback = object : ItemTouchHelper
         .SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
 

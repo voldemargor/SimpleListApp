@@ -3,13 +3,13 @@ package com.example.simplelistapp.presentation.items
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.simplelistapp.databinding.ActivityItemsListBinding
 import com.example.simplelistapp.domain.Folder
+import com.example.simplelistapp.presentation.edititem.EditItemActivity
 
 class ItemsListActivity : AppCompatActivity() {
 
@@ -29,17 +29,9 @@ class ItemsListActivity : AppCompatActivity() {
         parseIntent()
         initViewModel()
         setupRecyclerView()
+        observeViewModel()
+        setFabListener()
         title = folderName
-
-        viewModel.itemsList.observe(this) {
-            rvAdapter.submitList(it)
-        }
-
-        binding.fabAddItem.setOnClickListener() {
-            viewModel.addItem()
-//            startActivity(EditItemActivity.newIntentAddFolder(this))
-        }
-
     }
 
     private fun parseIntent() {
@@ -63,24 +55,36 @@ class ItemsListActivity : AppCompatActivity() {
         rvAdapter = ItemsListAdapter()
         binding.rvItemsList.adapter = rvAdapter
 
-        setupOnClickListener()
-        setupOnLongClickListener()
-        setupSwipeListener()
+        setOnClickListener()
+        setOnLongClickListener()
+        setSwipeListener()
     }
 
-    private fun setupOnClickListener() {
+    private fun observeViewModel() {
+        viewModel.itemsList.observe(this) {
+            rvAdapter.submitList(it)
+        }
+    }
+
+    private fun setFabListener() {
+        binding.fabAddItem.setOnClickListener() {
+            startActivity(EditItemActivity.newIntentAddItem(this, folderId))
+        }
+    }
+
+    private fun setOnClickListener() {
         rvAdapter.onItemClickListener = {
             viewModel.changeEnabledState(it)
         }
     }
 
-    private fun setupOnLongClickListener() {
+    private fun setOnLongClickListener() {
         rvAdapter.onItemLongClickListener = {
-            Toast.makeText(this, "Edit: ${it.id} - ${it.name}", Toast.LENGTH_SHORT).show()
+            startActivity(EditItemActivity.newIntentEditItem(this, it.id))
         }
     }
 
-    private fun setupSwipeListener() {
+    private fun setSwipeListener() {
         val callback = object : ItemTouchHelper
         .SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
             override fun onMove(
@@ -102,7 +106,6 @@ class ItemsListActivity : AppCompatActivity() {
     }
 
     companion object {
-
         private const val EXTRA_FOLDER_ID = "extra_folder_id"
         private const val EXTRA_FOLDER_NAME = "extra_folder_name"
 

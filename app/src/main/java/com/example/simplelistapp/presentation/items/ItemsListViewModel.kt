@@ -18,7 +18,7 @@ class ItemsListViewModel(
     private val getItemsForFolderUseCase = GetItemsForFolderUseCase(repository)
     private val editItemUseCase = EditItemUseCase(repository)
     private val deleteItemUseCase = DeleteItemUseCase(repository)
-    private val addItemUseCase = AddItemUseCase(repository)
+//    private val addItemUseCase = AddItemUseCase(repository)
 
     val itemsList = getItemsForFolderUseCase.getItemsForFolder(folderId)
 
@@ -35,10 +35,10 @@ class ItemsListViewModel(
         }
     }
 
-    fun addItem() {
-        viewModelScope.launch {
-            addItemUseCase.addItem(Item(folderId, "Айтем", 0))
-        }
-    }
+//    fun addItem() {
+//        viewModelScope.launch {
+//            addItemUseCase.addItem(Item(folderId, "Айтем", 0))
+//        }
+//    }
 
 }
