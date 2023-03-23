@@ -1,4 +1,4 @@
-package com.example.simplelistapp.presentation
+package com.example.simplelistapp.presentation.folders
 
 import androidx.recyclerview.widget.DiffUtil
 import com.example.simplelistapp.domain.Folder

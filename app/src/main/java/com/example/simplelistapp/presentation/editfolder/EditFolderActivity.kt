@@ -1,4 +1,4 @@
-package com.example.simplelistapp.presentation
+package com.example.simplelistapp.presentation.editfolder
 
 import android.content.Context
 import android.content.Intent

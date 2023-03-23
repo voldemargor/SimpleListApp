@@ -1,0 +1,44 @@
+package com.example.simplelistapp.presentation.folders
+
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
+import com.example.simplelistapp.databinding.FolderCardBinding
+import com.example.simplelistapp.domain.Folder
+
+class FoldersListAdapter : ListAdapter<Folder, FoldersListAdapter.FolderViewHolder>(
+    FolderItemDiffCallback()
+) {
+
+    var onFolderClickListener: ((Folder) -> Unit)? = null
+    var onFolderLongClickListener: ((Folder) -> Unit)? = null
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FolderViewHolder {
+        val binding = FolderCardBinding
+            .inflate(LayoutInflater.from(parent.context), parent, false)
+        return FolderViewHolder(binding)
+    }
+
+    override fun onBindViewHolder(holder: FolderViewHolder, position: Int) {
+        val folder = getItem(position)
+        val binding = holder.binding
+
+        binding.tvFolderName.text = folder.name
+        binding.tvFolderCount.text = folder.itemsCount.toString()
+
+        binding.root.setOnClickListener {
+            onFolderClickListener?.invoke(folder)
+        }
+
+        binding.root.setOnLongClickListener {
+            onFolderLongClickListener?.invoke(folder)
+            true
+        }
+    }
+
+    inner class FolderViewHolder(val binding: FolderCardBinding) :
+    RecyclerView.ViewHolder(binding.root) {
+    }
+
+}

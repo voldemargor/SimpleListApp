@@ -1,4 +1,4 @@
-package com.example.simplelistapp.presentation
+package com.example.simplelistapp.presentation.editfolder
 
 import android.app.Application
 import android.util.Log
@@ -11,9 +11,6 @@ import com.example.simplelistapp.domain.AddFolderUseCase
 import com.example.simplelistapp.domain.EditFolderUseCase
 import com.example.simplelistapp.domain.Folder
 import com.example.simplelistapp.domain.GetFolderUseCase
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
 class EditFolderViewModel(application: Application) : AndroidViewModel(application) {

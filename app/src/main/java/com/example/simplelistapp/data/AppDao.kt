@@ -15,7 +15,7 @@ interface AppDao {
     @Query("SELECT * FROM items WHERE id=:itemId LIMIT 1")
     suspend fun getItem(itemId: Int): ItemDbModel
 
-    @Query("SELECT * FROM items WHERE folderId=:folderId")
+    @Query("SELECT * FROM items WHERE folderId=:folderId ORDER BY enabled DESC")
     fun getItemsForFolder(folderId: Int): LiveData<List<ItemDbModel>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

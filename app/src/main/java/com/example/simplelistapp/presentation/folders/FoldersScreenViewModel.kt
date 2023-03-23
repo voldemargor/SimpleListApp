@@ -1,4 +1,4 @@
-package com.example.simplelistapp.presentation
+package com.example.simplelistapp.presentation.folders
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -6,9 +6,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.example.simplelistapp.data.DbRepositoryImpl
 import com.example.simplelistapp.domain.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
 class FoldersScreenViewModel(application: Application) : AndroidViewModel(application) {

@@ -1,15 +1,13 @@
-package com.example.simplelistapp.presentation
+package com.example.simplelistapp.presentation.folders
 
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.example.simplelistapp.R
 import com.example.simplelistapp.databinding.ActivityMainBinding
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.example.simplelistapp.presentation.editfolder.EditFolderActivity
+import com.example.simplelistapp.presentation.items.ItemsListActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -48,16 +46,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupOnClickListener() {
         rvAdapter.onFolderClickListener = {
-//            val items = viewModel.getItemsForFolder(it.id).value
-//            Log.d("mylog", "Folder ID: ${it.id}")
-//            Log.d("mylog", items.toString())
-            startActivity(ItemsListActivity.newIntentItemsList(this, folderId = it.id))
+            startActivity(ItemsListActivity.newIntentItemsList(this, it.id, it.name))
         }
     }
 
     private fun setupOnLongClickListener() {
         rvAdapter.onFolderLongClickListener = {
-            Toast.makeText(this@MainActivity, "Click: ${it.name}", Toast.LENGTH_SHORT).show()
             startActivity(EditFolderActivity.newIntentEditFolder(this, it.id))
         }
     }
