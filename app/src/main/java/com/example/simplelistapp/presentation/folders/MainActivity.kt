@@ -1,19 +1,24 @@
 package com.example.simplelistapp.presentation.folders
 
 import android.os.Bundle
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.example.simplelistapp.R
 import com.example.simplelistapp.databinding.ActivityMainBinding
 import com.example.simplelistapp.presentation.editfolder.EditFolderActivity
 import com.example.simplelistapp.presentation.items.ItemsListActivity
+import com.example.simplelistapp.presentation.startAnimation
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModel: FoldersScreenViewModel
     private lateinit var rvAdapter: FoldersListAdapter
-
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,7 +30,12 @@ class MainActivity : AppCompatActivity() {
 
         setupRecyclerView()
         observeViewModel()
-        setFabListener()
+        setupFab()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.stopFrame.isVisible = false
     }
 
     private fun setupRecyclerView() {
@@ -40,12 +50,6 @@ class MainActivity : AppCompatActivity() {
     private fun observeViewModel() {
         viewModel.foldersList.observe(this) {
             rvAdapter.submitList(it)
-        }
-    }
-
-    private fun setFabListener() {
-        binding.fabAddFolder.setOnClickListener() {
-            startActivity(EditFolderActivity.newIntentAddFolder(this))
         }
     }
 
@@ -83,5 +87,27 @@ class MainActivity : AppCompatActivity() {
         itemTouchHelper.attachToRecyclerView(binding.rvFoldersList)
     }
 
+    private fun setupFab() {
+        val animation = AnimationUtils.loadAnimation(this, R.anim.circle_explosion_anim).apply {
+            duration = 400
+            interpolator = AccelerateDecelerateInterpolator()
+        }
+
+        binding.fabAddFolder.setOnClickListener() {
+            binding.fabAddFolder.isVisible = false
+            binding.animCircle.isVisible = true
+            binding.animCircle.startAnimation(animation) {
+                onFabAnimationFinished()
+            }
+        }
+    }
+
+    private fun onFabAnimationFinished() {
+        supportActionBar?.hide()
+        binding.fabAddFolder.isVisible = true
+        binding.stopFrame.isVisible = true
+        binding.animCircle.isVisible = false
+        startActivity(EditFolderActivity.newIntentAddFolder(this))
+    }
 
 }

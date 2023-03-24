@@ -11,7 +11,7 @@
         android:layout_marginTop="12dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="-8dp"
-        android:backgroundTint="@color/grey_240"
+        android:backgroundTint="@color/item_disabled_bg"
         app:cardCornerRadius="8dp"
         app:cardElevation="0dp"
         app:cardUseCompatPadding="true">
@@ -24,7 +24,7 @@
 
             <TextView
                 android:id="@+id/tv_item_name"
-                style="@style/FolderCardNameDisabled"
+                style="@style/Text.Item.Name.Disabled"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -32,7 +32,7 @@
 
             <TextView
                 android:id="@+id/tv_item_count"
-                style="@style/FolderCardNameDisabled"
+                style="@style/Text.Item.Name.Disabled"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="2" />

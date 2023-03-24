@@ -15,6 +15,8 @@ class EditItemViewModel(application: Application) : AndroidViewModel(application
     private val getItemUseCase = GetItemUseCase(repository)
     private val addItemUseCase = AddItemUseCase(repository)
     private val editItemUseCase = EditItemUseCase(repository)
+    private val getFolderUseCase = GetFolderUseCase(repository)
+    private val editFolderUseCase = EditFolderUseCase(repository)
 
     // Ошибка ввода названия
     private val _errorInputName = MutableLiveData<Boolean>()
@@ -43,6 +45,7 @@ class EditItemViewModel(application: Application) : AndroidViewModel(application
         if (inputsValid) {
             viewModelScope.launch {
                 val newItem = Item(folderId, parseName(itemName), 0)
+                increaseItemsCountInFolder(folderId)
                 addItemUseCase.addItem(newItem)
                 exitScreen()
             }
@@ -62,6 +65,14 @@ class EditItemViewModel(application: Application) : AndroidViewModel(application
                 }
             }
         }
+    }
+
+    private suspend fun increaseItemsCountInFolder(folderId: Int) {
+        val folder = getFolderUseCase.getFolder(folderId)
+        var newItemsCount = folder.itemsCount
+        newItemsCount++
+        val newFolder = folder.copy(itemsCount = newItemsCount)
+        editFolderUseCase.editFolder(newFolder)
     }
 
     fun displayErrorInputName() {

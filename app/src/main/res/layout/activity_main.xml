@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/folders_screen_bg"
         tools:context=".presentation.folders.MainActivity">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_folders_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:backgroundTint="@color/folders_screen_bg"
             android:background="@color/white"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/folder_card" />
@@ -22,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="50dp"
-            android:backgroundTint="@color/purple_500"
+            android:backgroundTint="@color/main_blue"
             android:clickable="true"
             android:contentDescription="@string/add_new_item_description"
             android:focusable="true"
@@ -31,6 +33,29 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/ic_baseline_add_24" />
+
+        <View
+            android:id="@+id/anim_circle"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginEnd="70dp"
+            android:layout_marginBottom="40dp"
+            android:background="@drawable/circle"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <View
+            android:id="@+id/stop_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/main_blue"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

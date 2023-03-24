@@ -18,7 +18,8 @@ class ItemsListViewModel(
     private val getItemsForFolderUseCase = GetItemsForFolderUseCase(repository)
     private val editItemUseCase = EditItemUseCase(repository)
     private val deleteItemUseCase = DeleteItemUseCase(repository)
-//    private val addItemUseCase = AddItemUseCase(repository)
+    private val getFolderUseCase = GetFolderUseCase(repository)
+    private val editFolderUseCase = EditFolderUseCase(repository)
 
     val itemsList = getItemsForFolderUseCase.getItemsForFolder(folderId)
 
@@ -31,14 +32,17 @@ class ItemsListViewModel(
 
     fun deleteItem(item: Item) {
         viewModelScope.launch {
+            decreaseItemsCountInFolder(item.folderId)
             deleteItemUseCase.deleteItem(item)
         }
     }
 
-//    fun addItem() {
-//        viewModelScope.launch {
-//            addItemUseCase.addItem(Item(folderId, "Айтем", 0))
-//        }
-//    }
+    private suspend fun decreaseItemsCountInFolder(folderId: Int) {
+            val folder = getFolderUseCase.getFolder(folderId)
+            var newItemsCount = folder.itemsCount
+            newItemsCount--
+            val newFolder = folder.copy(itemsCount = newItemsCount)
+            editFolderUseCase.editFolder(newFolder)
+    }
 
 }

@@ -26,6 +26,8 @@ class EditFolderActivity : AppCompatActivity() {
         binding = ActivityEditFolderBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        supportActionBar?.hide()
+
         parseIntent()
 
         viewModel = ViewModelProvider(this).get(EditFolderViewModel::class.java)
