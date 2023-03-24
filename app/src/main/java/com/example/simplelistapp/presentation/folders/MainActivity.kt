@@ -89,7 +89,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupFab() {
         val animation = AnimationUtils.loadAnimation(this, R.anim.circle_explosion_anim).apply {
-            duration = 400
+            duration = 360
             interpolator = AccelerateDecelerateInterpolator()
         }
 

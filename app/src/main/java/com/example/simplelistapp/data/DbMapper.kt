@@ -16,6 +16,7 @@ object DbMapper {
     fun mapEntityToDbModel(folder: Folder) = FolderDbModel(
         id = folder.id,
         name = folder.name,
+        itemsCompleted = folder.itemsCompleted,
         itemsCount = folder.itemsCount
     )
 
@@ -30,6 +31,7 @@ object DbMapper {
     fun mapDbModelToEntity(folderDbModel: FolderDbModel) = Folder(
         id = folderDbModel.id,
         name = folderDbModel.name,
+        itemsCompleted = folderDbModel.itemsCompleted,
         itemsCount = folderDbModel.itemsCount
     )
 

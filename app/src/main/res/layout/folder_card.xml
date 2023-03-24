@@ -35,7 +35,7 @@
             style="@style/Text.Item.Name.Disabled"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="2" />
+            tools:text="1/2" />
 
     </LinearLayout>
 

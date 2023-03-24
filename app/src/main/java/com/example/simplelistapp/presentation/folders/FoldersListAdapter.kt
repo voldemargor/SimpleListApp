@@ -25,7 +25,7 @@ class FoldersListAdapter : ListAdapter<Folder, FoldersListAdapter.FolderViewHold
         val binding = holder.binding
 
         binding.tvFolderName.text = folder.name
-        binding.tvFolderCount.text = folder.itemsCount.toString()
+        binding.tvFolderCount.text = "${folder.itemsCompleted}/${folder.itemsCount}"
 
         binding.root.setOnClickListener {
             onFolderClickListener?.invoke(folder)

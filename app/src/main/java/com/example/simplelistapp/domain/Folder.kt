@@ -1,9 +1,8 @@
 package com.example.simplelistapp.domain
 
-import com.example.simplelistapp.R
-
 data class Folder(
     val name: String,
+    val itemsCompleted: Int = 0,
     val itemsCount: Int = 0,
     var id: Int = UNDEFINED_ID
 ) {

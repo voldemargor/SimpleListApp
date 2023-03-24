@@ -25,8 +25,11 @@ class ItemsListViewModel(
 
     fun changeEnabledState(item: Item) {
         val newItem = item.copy(enabled = !item.enabled)
+        val enabled = newItem.enabled
         viewModelScope.launch() {
             editItemUseCase.editItem(newItem)
+            if (enabled) increaseCompletedInFolder(newItem.folderId)
+            else decreaseCompletedInFolder(newItem.folderId)
         }
     }
 
@@ -38,11 +41,29 @@ class ItemsListViewModel(
     }
 
     private suspend fun decreaseItemsCountInFolder(folderId: Int) {
-            val folder = getFolderUseCase.getFolder(folderId)
-            var newItemsCount = folder.itemsCount
-            newItemsCount--
-            val newFolder = folder.copy(itemsCount = newItemsCount)
-            editFolderUseCase.editFolder(newFolder)
+        val folder = getFolderUseCase.getFolder(folderId)
+        var newItemsCompleted = folder.itemsCompleted
+        var newItemsCount = folder.itemsCount
+        newItemsCompleted--
+        newItemsCount--
+        val newFolder = folder.copy(itemsCompleted = newItemsCompleted, itemsCount = newItemsCount)
+        editFolderUseCase.editFolder(newFolder)
+    }
+
+    private suspend fun decreaseCompletedInFolder(folderId: Int) {
+        val folder = getFolderUseCase.getFolder(folderId)
+        var newItemsCompleted = folder.itemsCompleted
+        newItemsCompleted--
+        val newFolder = folder.copy(itemsCompleted = newItemsCompleted)
+        editFolderUseCase.editFolder(newFolder)
+    }
+
+    private suspend fun increaseCompletedInFolder(folderId: Int) {
+        val folder = getFolderUseCase.getFolder(folderId)
+        var newItemsCompleted = folder.itemsCompleted
+        newItemsCompleted++
+        val newFolder = folder.copy(itemsCompleted = newItemsCompleted)
+        editFolderUseCase.editFolder(newFolder)
     }
 
 }

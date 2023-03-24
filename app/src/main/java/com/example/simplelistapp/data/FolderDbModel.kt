@@ -10,6 +10,7 @@ data class FolderDbModel(
     val id: Int,
 
     val name: String,
+    val itemsCompleted: Int,
     val itemsCount: Int
 ) {
 

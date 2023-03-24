@@ -69,9 +69,11 @@ class EditItemViewModel(application: Application) : AndroidViewModel(application
 
     private suspend fun increaseItemsCountInFolder(folderId: Int) {
         val folder = getFolderUseCase.getFolder(folderId)
+        var newItemsCompleted = folder.itemsCompleted
         var newItemsCount = folder.itemsCount
+        newItemsCompleted++
         newItemsCount++
-        val newFolder = folder.copy(itemsCount = newItemsCount)
+        val newFolder = folder.copy(itemsCompleted = newItemsCompleted, itemsCount = newItemsCount)
         editFolderUseCase.editFolder(newFolder)
     }
 

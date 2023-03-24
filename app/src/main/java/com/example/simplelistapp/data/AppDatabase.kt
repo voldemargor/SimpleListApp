@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [FolderDbModel::class, ItemDbModel::class], version = 1, exportSchema = false)
+@Database(entities = [FolderDbModel::class, ItemDbModel::class], version = 2, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun appDao(): AppDao
@@ -23,6 +23,7 @@ abstract class AppDatabase : RoomDatabase() {
                 INSTANCE?.let { return it }
                 val db = Room
                     .databaseBuilder(application, AppDatabase::class.java, DB_NAME)
+                    .fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = db
                 return db
