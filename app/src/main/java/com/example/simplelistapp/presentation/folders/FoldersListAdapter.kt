@@ -14,6 +14,8 @@ class FoldersListAdapter : ListAdapter<Folder, FoldersListAdapter.FolderViewHold
     var onFolderClickListener: ((Folder) -> Unit)? = null
     var onFolderLongClickListener: ((Folder) -> Unit)? = null
 
+    var onFolderMenuClickListener: ((Folder) -> Unit)? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FolderViewHolder {
         val binding = FolderCardBinding
             .inflate(LayoutInflater.from(parent.context), parent, false)
@@ -35,10 +37,15 @@ class FoldersListAdapter : ListAdapter<Folder, FoldersListAdapter.FolderViewHold
             onFolderLongClickListener?.invoke(folder)
             true
         }
+
+        binding.btnFolderMenu.setOnClickListener {
+            onFolderMenuClickListener?.invoke(folder)
+        }
+
     }
 
     inner class FolderViewHolder(val binding: FolderCardBinding) :
-    RecyclerView.ViewHolder(binding.root) {
+        RecyclerView.ViewHolder(binding.root) {
     }
 
 }

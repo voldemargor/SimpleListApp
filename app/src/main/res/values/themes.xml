@@ -15,13 +15,17 @@
     </style>
 
     <style name="TextFolderName">
-        <item name="android:textSize">22dp</item>
+        <item name="android:textSize">22sp</item>
         <item name="android:fontFamily">@font/inter_extrabold</item>
         <item name="android:textColor">@color/text_item_enabled</item>
     </style>
 
     <style name="Text.Item.Name.Disabled" parent="TextFolderName">
         <item name="android:textColor">@color/text_item_disabled</item>
+    </style>
+
+    <style name="Text.Folder.Count" parent="TextFolderName">
+        <item name="android:textColor">@color/text_folder_count</item>
     </style>
 
 
@@ -37,8 +41,9 @@
         <item name="android:textColor">@color/text_item_disabled</item>
     </style>
 
-
-
-
+    <style name="FolderMenuAnimation">
+        <item name="android:windowEnterAnimation">@anim/folder_menu_slide_in</item>
+        <item name="android:windowExitAnimation">@anim/folder_menu_slide_out</item>
+    </style>
 
 </resources>

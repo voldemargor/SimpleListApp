@@ -14,7 +14,6 @@ class FoldersScreenViewModel(application: Application) : AndroidViewModel(applic
 
     private val getFoldersListUseCase = GetFoldersListUseCase(repository)
     private val deleteFolderUseCase = DeleteFolderUseCase(repository)
-    private val getItemsForFolderUseCase = GetItemsForFolderUseCase(repository)
 
     val foldersList = getFoldersListUseCase.getFoldersList()
 
@@ -24,7 +23,4 @@ class FoldersScreenViewModel(application: Application) : AndroidViewModel(applic
         }
     }
 
-    fun getItemsForFolder(folderId: Int): LiveData<List<Item>> {
-        return getItemsForFolderUseCase.getItemsForFolder(folderId)
-    }
 }

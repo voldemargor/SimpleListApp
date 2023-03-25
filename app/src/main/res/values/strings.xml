@@ -12,4 +12,8 @@
     <string name="fab_add_folder">+ НОВЫЙ СПИСОК</string>
     <string name="fab_add_item">+ ДОБАВИТЬ</string>
     <string name="hint_new_item">Добавить элемент списка</string>
+    <string name="folder_menu_title">Управление списком</string>
+    <string name="folder_menu_rename">ПЕРЕИМЕНОВАТЬ</string>
+    <string name="folder_menu_delete">УДАЛИТЬ</string>
+    <string name="folder_menu_cancel">Отмена</string>
 </resources>

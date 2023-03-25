@@ -1,43 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="0dp"
-    android:layout_marginEnd="0dp"
-    android:layout_marginTop="0dp"
-    android:layout_marginBottom="-24dp"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="12dp"
-    app:cardMaxElevation="4dp"
-    app:cardUseCompatPadding="true">
+    <androidx.cardview.widget.CardView
 
-    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="18dp"
-        android:orientation="horizontal">
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="-24dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="12dp"
+        app:cardMaxElevation="4dp"
+        app:cardUseCompatPadding="true">
 
-        <TextView
-            android:id="@+id/tv_folder_name"
-            style="@style/TextFolderName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            tools:text="Йогурт" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="8dp">
 
-        <TextView
-            android:id="@+id/tv_folder_count"
-            style="@style/Text.Item.Name.Disabled"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="1/2" />
+            <LinearLayout
+                android:id="@+id/linear_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="18dp"
+                android:orientation="horizontal"
+                android:paddingBottom="6dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="18dp"
+                tools:layout_editor_absoluteY="17dp">
 
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/tv_folder_name"
+                    style="@style/TextFolderName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    tools:text="Йогурт" />
 
-</androidx.cardview.widget.CardView>
+                <TextView
+                    android:id="@+id/tv_folder_count"
+                    style="@style/Text.Folder.Count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="1/2" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/btn_folder_menu"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="2dp"
+                android:backgroundTint="@color/btn_green_bg"
+                android:background="@drawable/ic_baseline_more_horiz_24"
+                app:layout_constraintEnd_toEndOf="@id/linear_layout"
+                app:layout_constraintTop_toBottomOf="@id/linear_layout" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
 </layout>
