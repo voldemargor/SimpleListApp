@@ -1,16 +1,8 @@
 package com.example.simplelistapp.presentation.folders
 
-import android.app.Dialog
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.Gravity
-import android.view.ViewGroup
-import android.view.Window
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AnimationUtils
-import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
@@ -76,37 +68,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setOnFolderMenuClickListener() {
         rvAdapter.onFolderMenuClickListener = {
-            displayFolderMenu(it)
-        }
-    }
-
-    private fun displayFolderMenu(folder: Folder) {
-        val dialog = Dialog(this).apply {
-            requestWindowFeature(Window.FEATURE_NO_TITLE)
-            setContentView(R.layout.folder_menu)
-        }
-
-        dialog.findViewById<TextView>(R.id.tv1_cancel).setOnClickListener() {
-            dialog.dismiss()
-        }
-        dialog.findViewById<TextView>(R.id.tv1_option_rename).setOnClickListener() {
-            startActivity(EditFolderActivity.newIntentEditFolder(this, folder.id))
-            dialog.dismiss()
-        }
-        dialog.findViewById<TextView>(R.id.tv1_option_delete).setOnClickListener() {
-            viewModel.deleteFolder(folder)
-            dialog.dismiss()
-        }
-
-        with(dialog) {
-            show()
-            window?.setLayout(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            )
-            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            window?.attributes?.windowAnimations = R.style.FolderMenuAnimation
-            window?.setGravity(Gravity.BOTTOM)
+            FolderOptionsDialogFragment.newInstance(it).show(supportFragmentManager, "dialog")
         }
     }
 
@@ -133,7 +95,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupFab() {
-        val animation = AnimationUtils.loadAnimation(this, R.anim.circle_explosion_anim).apply {
+        val animation = AnimationUtils.loadAnimation(this, R.anim.fab_explosion).apply {
             duration = 360
             interpolator = AccelerateDecelerateInterpolator()
         }
