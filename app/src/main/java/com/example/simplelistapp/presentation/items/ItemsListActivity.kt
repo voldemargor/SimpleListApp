@@ -57,7 +57,9 @@ class ItemsListActivity : AppCompatActivity() {
 
         setOnClickListener()
         setOnLongClickListener()
-        setSwipeListener()
+        setItemCheckboxListener()
+        setLeftSwipeListener()
+        setRightSwipeListener()
     }
 
     private fun observeViewModel() {
@@ -74,19 +76,25 @@ class ItemsListActivity : AppCompatActivity() {
 
     private fun setOnClickListener() {
         rvAdapter.onItemClickListener = {
-            viewModel.changeEnabledState(it)
+            startActivity(EditItemActivity.newIntentEditItem(this, it.id))
         }
     }
 
     private fun setOnLongClickListener() {
         rvAdapter.onItemLongClickListener = {
-            startActivity(EditItemActivity.newIntentEditItem(this, it.id))
+            viewModel.changeEnabledState(it)
         }
     }
 
-    private fun setSwipeListener() {
+    private fun setItemCheckboxListener() {
+        rvAdapter.onItemCheckboxListener = {
+            viewModel.changeEnabledState(it)
+        }
+    }
+
+    private fun setLeftSwipeListener() {
         val callback = object : ItemTouchHelper
-        .SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+        .SimpleCallback(0, ItemTouchHelper.LEFT) {
             override fun onMove(
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder,
@@ -100,7 +108,26 @@ class ItemsListActivity : AppCompatActivity() {
                 viewModel.deleteItem(item)
             }
         }
+        val itemTouchHelper = ItemTouchHelper(callback)
+        itemTouchHelper.attachToRecyclerView(binding.rvItemsList)
+    }
 
+    private fun setRightSwipeListener() {
+        val callback = object : ItemTouchHelper
+        .SimpleCallback(0, ItemTouchHelper.RIGHT) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val item = rvAdapter.currentList.get(viewHolder.adapterPosition)
+                viewModel.changeEnabledState(item)
+            }
+        }
         val itemTouchHelper = ItemTouchHelper(callback)
         itemTouchHelper.attachToRecyclerView(binding.rvItemsList)
     }

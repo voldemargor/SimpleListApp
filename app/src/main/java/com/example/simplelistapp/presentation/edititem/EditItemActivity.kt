@@ -74,7 +74,6 @@ class EditItemActivity : AppCompatActivity() {
         binding.etCount.setText(null)
         binding.btnSave.setOnClickListener() {
             val name = binding.etName.text?.trim().toString()
-            val count = Integer.parseInt(binding.etCount.text?.trim().toString())
 
             if (name.isBlank())
                 viewModel.displayErrorInputName()
@@ -100,7 +99,6 @@ class EditItemActivity : AppCompatActivity() {
             if (name.isBlank())
                 viewModel.displayErrorInputName()
             else {
-
                 viewModel.editItem(name, count)
             }
         }

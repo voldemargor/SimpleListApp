@@ -1,8 +1,10 @@
 package com.example.simplelistapp.presentation.items
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -13,6 +15,7 @@ class ItemsListAdapter : ListAdapter<Item, ItemsListAdapter.ItemViewHolder>(Item
 
     var onItemClickListener: ((Item) -> Unit)? = null
     var onItemLongClickListener: ((Item) -> Unit)? = null
+    var onItemCheckboxListener: ((Item) -> Unit)? = null
 
     override fun getItemViewType(position: Int): Int {
         val item = getItem(position)
@@ -27,6 +30,7 @@ class ItemsListAdapter : ListAdapter<Item, ItemsListAdapter.ItemViewHolder>(Item
             else -> throw RuntimeException("Unknown view type: $viewType")
         }
         val view = LayoutInflater.from(parent.context).inflate(layout, parent, false)
+
         return ItemViewHolder(view)
     }
 
@@ -35,9 +39,10 @@ class ItemsListAdapter : ListAdapter<Item, ItemsListAdapter.ItemViewHolder>(Item
 
         holder.tvName.text = item.name
 
-        var count = ""
-        if (item.count > 0) count = item.count.toString()
-        holder.tvCount.text = count
+        var itemsCount = ""
+        if (item.count > 0) itemsCount = item.count.toString()
+        holder.tvCount.text = itemsCount
+        holder.checkbox.isChecked = !item.enabled
 
         holder.itemView.setOnClickListener {
             onItemClickListener?.invoke(item)
@@ -47,11 +52,16 @@ class ItemsListAdapter : ListAdapter<Item, ItemsListAdapter.ItemViewHolder>(Item
             onItemLongClickListener?.invoke(item)
             true
         }
+
+        holder.checkbox.setOnCheckedChangeListener { _, _ ->
+            onItemCheckboxListener?.invoke(item)
+        }
     }
 
     inner class ItemViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val tvName: TextView = view.findViewById(R.id.tv_item_name)
         val tvCount: TextView = view.findViewById(R.id.tv_item_count)
+        val checkbox: CheckBox = view.findViewById(R.id.checkbox_item)
     }
 
     companion object {

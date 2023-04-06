@@ -20,7 +20,12 @@
         <item name="android:textColor">@color/text_item_enabled</item>
     </style>
 
-    <style name="Text.Item.Name.Disabled" parent="TextFolderName">
+    <style name="Text.Item.Name" parent="TextFolderName">
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">@font/inter_medium</item>
+    </style>
+
+    <style name="Text.Item.Name.Disabled" parent="Text.Item.Name">
         <item name="android:textColor">@color/text_item_disabled</item>
     </style>
 

@@ -7,26 +7,36 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="-8dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginBottom="-4dp"
         android:backgroundTint="@color/item_disabled_bg"
-        app:cardCornerRadius="8dp"
+        app:cardCornerRadius="6dp"
         app:cardElevation="0dp"
         app:cardUseCompatPadding="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_margin="10dp"
             android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/checkbox_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/text_item_disabled"
+                android:checked="true"
+                android:scaleX="1.2"
+                android:scaleY="1.2" />
 
             <TextView
                 android:id="@+id/tv_item_name"
                 style="@style/Text.Item.Name.Disabled"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 tools:text="Йогурт" />
 
@@ -35,6 +45,8 @@
                 style="@style/Text.Item.Name.Disabled"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="10dp"
                 tools:text="2" />
 
         </LinearLayout>

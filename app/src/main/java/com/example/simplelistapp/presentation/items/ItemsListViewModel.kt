@@ -2,8 +2,6 @@ package com.example.simplelistapp.presentation.items
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.simplelistapp.data.DbRepositoryImpl
 import com.example.simplelistapp.domain.*
@@ -25,44 +23,42 @@ class ItemsListViewModel(
 
     fun changeEnabledState(item: Item) {
         val newItem = item.copy(enabled = !item.enabled)
-        val enabled = newItem.enabled
         viewModelScope.launch() {
             editItemUseCase.editItem(newItem)
-            if (enabled) increaseCompletedInFolder(newItem.folderId)
-            else decreaseCompletedInFolder(newItem.folderId)
+            if (!newItem.enabled) incrementCompletedInFolder(newItem.folderId)
+            else decrementCompletedInFolder(newItem.folderId)
         }
     }
 
     fun deleteItem(item: Item) {
         viewModelScope.launch {
-            decreaseItemsCountInFolder(item.folderId)
+            decrementItemsCountInFolder(item)
             deleteItemUseCase.deleteItem(item)
         }
     }
 
-    private suspend fun decreaseItemsCountInFolder(folderId: Int) {
-        val folder = getFolderUseCase.getFolder(folderId)
-        var newItemsCompleted = folder.itemsCompleted
-        var newItemsCount = folder.itemsCount
-        newItemsCompleted--
-        newItemsCount--
-        val newFolder = folder.copy(itemsCompleted = newItemsCompleted, itemsCount = newItemsCount)
+    private suspend fun decrementItemsCountInFolder(item: Item) {
+        val folder = getFolderUseCase.getFolder(item.folderId)
+        val newFolder = if (item.enabled) {
+            folder.copy(itemsCount = folder.itemsCount.dec())
+        } else {
+            folder.copy(
+                itemsCount = folder.itemsCount.dec(),
+                itemsCompleted = folder.itemsCompleted.dec()
+            )
+        }
         editFolderUseCase.editFolder(newFolder)
     }
 
-    private suspend fun decreaseCompletedInFolder(folderId: Int) {
+    private suspend fun incrementCompletedInFolder(folderId: Int) {
         val folder = getFolderUseCase.getFolder(folderId)
-        var newItemsCompleted = folder.itemsCompleted
-        newItemsCompleted--
-        val newFolder = folder.copy(itemsCompleted = newItemsCompleted)
+        val newFolder = folder.copy(itemsCompleted = folder.itemsCompleted.inc())
         editFolderUseCase.editFolder(newFolder)
     }
 
-    private suspend fun increaseCompletedInFolder(folderId: Int) {
+    private suspend fun decrementCompletedInFolder(folderId: Int) {
         val folder = getFolderUseCase.getFolder(folderId)
-        var newItemsCompleted = folder.itemsCompleted
-        newItemsCompleted++
-        val newFolder = folder.copy(itemsCompleted = newItemsCompleted)
+        val newFolder = folder.copy(itemsCompleted = folder.itemsCompleted.dec())
         editFolderUseCase.editFolder(newFolder)
     }
 

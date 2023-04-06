@@ -1,7 +1,6 @@
 package com.example.simplelistapp.presentation.edititem
 
 import android.app.Application
-import android.os.CountDownTimer
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -46,7 +45,7 @@ class EditItemViewModel(application: Application) : AndroidViewModel(application
         if (inputsValid) {
             viewModelScope.launch {
                 val newItem = Item(folderId, parseName(itemName), count)
-                increaseItemsCountInFolder(folderId)
+                incrementItemsCountInFolder(folderId)
                 addItemUseCase.addItem(newItem)
                 exitScreen()
             }
@@ -68,13 +67,9 @@ class EditItemViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    private suspend fun increaseItemsCountInFolder(folderId: Int) {
+    private suspend fun incrementItemsCountInFolder(folderId: Int) {
         val folder = getFolderUseCase.getFolder(folderId)
-        var newItemsCompleted = folder.itemsCompleted
-        var newItemsCount = folder.itemsCount
-        newItemsCompleted++
-        newItemsCount++
-        val newFolder = folder.copy(itemsCompleted = newItemsCompleted, itemsCount = newItemsCount)
+        val newFolder = folder.copy(itemsCount = folder.itemsCount.inc())
         editFolderUseCase.editFolder(newFolder)
     }
 
