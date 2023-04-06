@@ -1,6 +1,7 @@
 package com.example.simplelistapp.presentation.edititem
 
 import android.app.Application
+import android.os.CountDownTimer
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -39,12 +40,12 @@ class EditItemViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    fun addItem(name: String, folderId: Int) {
+    fun addItem(folderId: Int, name: String, count: Int) {
         val itemName = parseName(name)
         val inputsValid = validateInput(itemName)
         if (inputsValid) {
             viewModelScope.launch {
-                val newItem = Item(folderId, parseName(itemName), 0)
+                val newItem = Item(folderId, parseName(itemName), count)
                 increaseItemsCountInFolder(folderId)
                 addItemUseCase.addItem(newItem)
                 exitScreen()
@@ -52,14 +53,14 @@ class EditItemViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    fun editItem(name: String) {
+    fun editItem(name: String, count: Int) {
         val itemName = parseName(name)
         val inputsValid = validateInput(itemName)
         if (inputsValid) {
             _currentItem.value?.let {
                 viewModelScope.launch {
                     // id объекта сохраняется, так как делаем копию
-                    val newItem = it.copy(name = itemName)
+                    val newItem = it.copy(name = itemName, count = count)
                     editItemUseCase.editItem(newItem)
                     exitScreen()
                 }

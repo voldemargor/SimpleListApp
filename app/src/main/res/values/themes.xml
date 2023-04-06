@@ -35,8 +35,11 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <style name="Button.White" parent="ThemeOverlay.AppCompat">
-        <item name="android:fontFamily">@font/inter_extrabold</item>
+    <style name="Button.Blue" parent="Button.Green">
+        <item name="android:backgroundTint">@color/main_blue</item>
+    </style>
+
+    <style name="Button.White" parent="Button.Green">
         <item name="android:backgroundTint">@color/white</item>
         <item name="android:textColor">@color/text_item_disabled</item>
     </style>

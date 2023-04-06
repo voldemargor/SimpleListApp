@@ -2,6 +2,8 @@ package com.example.simplelistapp.presentation.edititem
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -11,23 +13,23 @@ import com.example.simplelistapp.R
 import com.example.simplelistapp.databinding.ActivityEditItemBinding
 import com.example.simplelistapp.domain.Folder
 import com.example.simplelistapp.domain.Item
-import com.example.simplelistapp.presentation.editfolder.EditFolderActivity
 
 class EditItemActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityEditItemBinding
     private lateinit var viewModel: EditItemViewModel
+
     private var screenMode = MODE_UNKNOWN
     private var itemId = Item.UNDEFINED_ID
     private var folderId = Folder.UNDEFINED_ID
-
-    private lateinit var binding: ActivityEditItemBinding
-
-    private var currentItem: Item? = null
+    private var count = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityEditItemBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        supportActionBar?.hide()
 
         parseIntent()
 
@@ -41,7 +43,7 @@ class EditItemActivity : AppCompatActivity() {
             MODE_EDIT -> launchEditMode()
         }
 
-        binding.tilName.requestFocus()
+        binding.tilItemName.requestFocus()
     }
 
     private fun parseIntent() {
@@ -69,13 +71,15 @@ class EditItemActivity : AppCompatActivity() {
 
     private fun launchAddMode() {
         binding.btnSave.text = getString(R.string.btn_add)
+        binding.etCount.setText(null)
         binding.btnSave.setOnClickListener() {
             val name = binding.etName.text?.trim().toString()
+            val count = Integer.parseInt(binding.etCount.text?.trim().toString())
 
             if (name.isBlank())
                 viewModel.displayErrorInputName()
             else
-                viewModel.addItem(name, folderId)
+                viewModel.addItem(folderId, name, count)
         }
     }
 
@@ -84,25 +88,29 @@ class EditItemActivity : AppCompatActivity() {
 
         viewModel.getItem(itemId)
         viewModel.currentItem.observe(this) {
-            currentItem = it
             binding.etName.setText(it.name)
             binding.etName.setSelection(binding.etName.length())
+            count = it.count
+
+            updateCountViews()
         }
 
         binding.btnSave.setOnClickListener() {
             val name = binding.etName.text?.trim().toString()
             if (name.isBlank())
                 viewModel.displayErrorInputName()
-            else
-                viewModel.editItem(name)
+            else {
+
+                viewModel.editItem(name, count)
+            }
         }
     }
 
     private fun observeCommonViewModel() {
         // Ошибка имени
         viewModel.errorInputName.observe(this) {
-            binding.tilName.error = null
-            if (it) binding.tilName.error = getString(R.string.error_item_name)
+            binding.tilItemName.error = null
+            if (it) binding.tilItemName.error = getString(R.string.error_item_name)
         }
         // Закрыть экран
         viewModel.shouldCloseScreen.observe(this) {
@@ -123,6 +131,28 @@ class EditItemActivity : AppCompatActivity() {
 
         binding.btnCancel.setOnClickListener() {
             viewModel.exitScreen()
+        }
+
+        binding.btnAddCount.setOnClickListener() {
+            count++
+            updateCountViews()
+        }
+
+        binding.btnRemoveCount.setOnClickListener() {
+            if (count > 0) {
+                count--
+                updateCountViews()
+            }
+        }
+    }
+
+    private fun updateCountViews() {
+        if (count == 0) {
+            binding.etCount.setText(null)
+            binding.btnRemoveCount.setBackgroundResource(R.drawable.ic_baseline_remove_circle_disabled_24)
+        } else {
+            binding.etCount.setText(count.toString())
+            binding.btnRemoveCount.setBackgroundResource(R.drawable.ic_baseline_remove_circle_24)
         }
     }
 

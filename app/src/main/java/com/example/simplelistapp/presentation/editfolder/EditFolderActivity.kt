@@ -49,7 +49,7 @@ class EditFolderActivity : AppCompatActivity() {
             val name = binding.etName.text?.trim().toString()
 
             // TODO так надо будет в итоге, а пока покажу ошибку
-             // if (name.isBlank()) name = getString(R.string.defaul_folder_name)
+            // if (name.isBlank()) name = getString(R.string.defaul_folder_name)
 
             if (name.isBlank())
                 viewModel.displayErrorInputName()
@@ -129,18 +129,16 @@ class EditFolderActivity : AppCompatActivity() {
         private const val MODE_EDIT = "mode_edit"
         private const val MODE_UNKNOWN = ""
 
-        fun newIntentAddFolder(context: Context): Intent {
-            return Intent(context, EditFolderActivity::class.java).apply {
+        fun newIntentAddFolder(context: Context) =
+            Intent(context, EditFolderActivity::class.java).apply {
                 putExtra(EXTRA_SCREEN_MODE, MODE_ADD)
             }
-        }
 
-        fun newIntentEditFolder(context: Context, folderId: Int): Intent {
-            return Intent(context, EditFolderActivity::class.java).apply {
+        fun newIntentEditFolder(context: Context, folderId: Int) =
+            Intent(context, EditFolderActivity::class.java).apply {
                 putExtra(EXTRA_SCREEN_MODE, MODE_EDIT)
                 putExtra(EXTRA_FOLDER_ID, folderId)
             }
-        }
     }
 
 }

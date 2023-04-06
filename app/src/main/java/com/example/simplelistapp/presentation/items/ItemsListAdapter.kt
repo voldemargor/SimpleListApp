@@ -34,7 +34,10 @@ class ItemsListAdapter : ListAdapter<Item, ItemsListAdapter.ItemViewHolder>(Item
         val item = getItem(position)
 
         holder.tvName.text = item.name
-        holder.tvCount.text = item.count.toString()
+
+        var count = ""
+        if (item.count > 0) count = item.count.toString()
+        holder.tvCount.text = count
 
         holder.itemView.setOnClickListener {
             onItemClickListener?.invoke(item)
