@@ -6,6 +6,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/folders_screen_bg"
         tools:context=".presentation.items.ItemsListActivity">
 
         <androidx.recyclerview.widget.RecyclerView
@@ -13,19 +14,30 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/white"
+            android:clipToPadding="false"
+            android:paddingTop="16dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/folder_card" />
+            tools:listitem="@layout/item_card_enabled" />
+
+        <include
+            android:id="@+id/empty_items_layout"
+            layout="@layout/layout_empty_items"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/fab_add_item"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="52dp"
             android:layout_marginEnd="20dp"
-            android:layout_marginBottom="50dp"
+            android:layout_marginBottom="70dp"
             android:backgroundTint="@color/btn_green_bg"
             android:clickable="true"
             android:contentDescription="@string/add_new_item_description"
             android:focusable="true"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
             android:text="@string/fab_add_item"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"

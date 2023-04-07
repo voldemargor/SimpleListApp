@@ -14,24 +14,21 @@
         android:paddingBottom="30dp"
         tools:context=".presentation.editfolder.EditFolderActivity">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+        <EditText
+            android:id="@+id/et_folder_name"
+            style="@style/Text.Folder.Count"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:textColor="@color/text_item_enabled"
             android:layout_marginBottom="20dp"
-            app:boxBackgroundColor="@color/white"
-            app:layout_constraintBottom_toTopOf="@id/btn_cancel"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/hint_new_folder"
-                android:inputType="textCapSentences"
-                android:minHeight="70dp" />
-        </com.google.android.material.textfield.TextInputLayout>
+            android:background="@drawable/rounded_16dp"
+            android:backgroundTint="@color/white"
+            android:hint="@string/hint_new_folder"
+            android:importantForAutofill="no"
+            android:inputType="textCapSentences"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            app:layout_constraintBottom_toTopOf="@id/btn_cancel" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_cancel"

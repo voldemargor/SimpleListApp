@@ -19,7 +19,7 @@ interface AppDao {
     fun getItemsForFolder(folderId: Int): LiveData<List<ItemDbModel>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addFolder(folder: FolderDbModel)
+    suspend fun addFolder(folder: FolderDbModel): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addItem(item: ItemDbModel)

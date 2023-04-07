@@ -46,7 +46,7 @@
 
     <style name="Button.White" parent="Button.Green">
         <item name="android:backgroundTint">@color/white</item>
-        <item name="android:textColor">@color/text_item_disabled</item>
+        <item name="android:textColor">@color/text_btn_cancel</item>
     </style>
 
     <style name="FolderMenuAnimation">

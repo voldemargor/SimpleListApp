@@ -13,6 +13,7 @@
     <color name="text_item_disabled">#C8C8C8</color>
     <color name="text_folder_count">#B4B4B4</color>
     <color name="folder_menu_icon">#A0A0A0</color>
+    <color name="text_btn_cancel">#A0A0A0</color>
     <color name="main_blue">#2182F5</color>
     <color name="folders_screen_bg">#F6F6F6</color>
     <color name="btn_green_bg">#36BD24</color>

@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.simplelistapp.R
 import com.example.simplelistapp.databinding.ActivityEditFolderBinding
 import com.example.simplelistapp.domain.Folder
+import com.example.simplelistapp.presentation.items.ItemsListActivity
 
 class EditFolderActivity : AppCompatActivity() {
 
@@ -40,14 +41,14 @@ class EditFolderActivity : AppCompatActivity() {
             MODE_EDIT -> launchEditMode()
         }
 
-        binding.tilName.requestFocus()
+        binding.etFolderName.requestFocus()
 
     }
 
     private fun launchAddMode() {
         binding.btnSave.text = getString(R.string.btn_create)
         binding.btnSave.setOnClickListener() {
-            var name = binding.etName.text?.trim().toString()
+            var name = binding.etFolderName.text?.trim().toString()
 
             if (name.isBlank()) name = getString(R.string.default_folder_name)
             viewModel.addFolder(name)
@@ -57,6 +58,10 @@ class EditFolderActivity : AppCompatActivity() {
             //else
             //    viewModel.addFolder(name)
         }
+        // Открыть экран списка
+        viewModel.shouldDisplayItemsListScreen.observe(this) {
+            startActivity(ItemsListActivity.newIntentItemsList(this, it.id, it.name))
+        }
     }
 
     private fun launchEditMode() {
@@ -65,12 +70,12 @@ class EditFolderActivity : AppCompatActivity() {
         viewModel.getFolder(folderId)
         viewModel.currentFolder.observe(this) {
             currentFolder = it
-            binding.etName.setText(it.name)
-            binding.etName.setSelection(binding.etName.length())
+            binding.etFolderName.setText(it.name)
+            binding.etFolderName.setSelection(binding.etFolderName.length())
         }
 
         binding.btnSave.setOnClickListener() {
-            val name = binding.etName.text?.trim().toString()
+            val name = binding.etFolderName.text?.trim().toString()
             if (name.isBlank())
                 viewModel.displayErrorInputName()
             else
@@ -98,8 +103,8 @@ class EditFolderActivity : AppCompatActivity() {
     private fun observeCommonViewModel() {
         // Ошибка имени
         viewModel.errorInputName.observe(this) {
-            binding.tilName.error = null
-            if (it) binding.tilName.error = getString(R.string.error_folder_name)
+            binding.etFolderName.error = null
+            if (it) binding.etFolderName.error = getString(R.string.error_folder_name)
         }
         // Закрыть экран
         viewModel.shouldCloseScreen.observe(this) {
@@ -108,7 +113,7 @@ class EditFolderActivity : AppCompatActivity() {
     }
 
     private fun addCommonListeners() {
-        binding.etName.addTextChangedListener(object : TextWatcher {
+        binding.etFolderName.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -133,12 +138,14 @@ class EditFolderActivity : AppCompatActivity() {
         fun newIntentAddFolder(context: Context) =
             Intent(context, EditFolderActivity::class.java).apply {
                 putExtra(EXTRA_SCREEN_MODE, MODE_ADD)
+                flags = Intent.FLAG_ACTIVITY_NO_HISTORY
             }
 
         fun newIntentEditFolder(context: Context, folderId: Int) =
             Intent(context, EditFolderActivity::class.java).apply {
                 putExtra(EXTRA_SCREEN_MODE, MODE_EDIT)
                 putExtra(EXTRA_FOLDER_ID, folderId)
+                flags = Intent.FLAG_ACTIVITY_NO_HISTORY
             }
     }
 

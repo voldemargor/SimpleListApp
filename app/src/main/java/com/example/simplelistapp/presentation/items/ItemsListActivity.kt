@@ -3,6 +3,7 @@ package com.example.simplelistapp.presentation.items
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -72,6 +73,7 @@ class ItemsListActivity : AppCompatActivity() {
     private fun observeViewModel() {
         viewModel.itemsList.observe(this) {
             rvAdapter.submitList(it)
+            toggleEmptyState(it.isEmpty())
         }
     }
 
@@ -137,6 +139,16 @@ class ItemsListActivity : AppCompatActivity() {
         }
         val itemTouchHelper = ItemTouchHelper(callback)
         itemTouchHelper.attachToRecyclerView(binding.rvItemsList)
+    }
+
+    private fun toggleEmptyState(isEmpty: Boolean) {
+        if (isEmpty) {
+            binding.rvItemsList.visibility = View.GONE
+            binding.emptyItemsLayout.visibility = View.VISIBLE
+        } else {
+            binding.rvItemsList.visibility = View.VISIBLE
+            binding.emptyItemsLayout.visibility = View.GONE
+        }
     }
 
     companion object {

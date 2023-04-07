@@ -21,26 +21,27 @@ object TempRepositoryImpl : Repository {
     private var autoincrementFolderId = 0
     private var autoincrementItemsId = 0
 
-//    init {
-//        // Генерим фолдеры
-//        for (i in 0..4) {
-//            val folder = Folder("Folder Num. $i", id = i)
-//            addFolder(folder)
-//        }
-//
-//        // Генерим айтемы для фолдеров
-//        for (f in 0 until folders.size) {
-//            for (i in 1..3) {
-//                val item = Item(folderId = f, "Folder$f-Item$i", 1)
-//                addItem(item)
-//            }
-//        }
-//    }
+    //    init {
+    //        // Генерим фолдеры
+    //        for (i in 0..4) {
+    //            val folder = Folder("Folder Num. $i", id = i)
+    //            addFolder(folder)
+    //        }
+    //
+    //        // Генерим айтемы для фолдеров
+    //        for (f in 0 until folders.size) {
+    //            for (i in 1..3) {
+    //                val item = Item(folderId = f, "Folder$f-Item$i", 1)
+    //                addItem(item)
+    //            }
+    //        }
+    //    }
 
-    override suspend fun addFolder(folder: Folder) {
+    override suspend fun addFolder(folder: Folder): Long {
         folder.id = autoincrementFolderId++
         folders.add(folder)
         updateFoldersList()
+        return folder.id.toLong()
     }
 
     override suspend fun getFolder(folderId: Int): Folder {

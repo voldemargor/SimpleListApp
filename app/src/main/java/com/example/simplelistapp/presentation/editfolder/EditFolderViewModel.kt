@@ -35,6 +35,11 @@ class EditFolderViewModel(application: Application) : AndroidViewModel(applicati
     val shouldCloseScreen: LiveData<Unit>
         get() = _shouldCloseScreen
 
+    // Перейти внутрь списка
+    private val _shouldDisplayItemsListScreen = MutableLiveData<Folder>()
+    val shouldDisplayItemsListScreen: LiveData<Folder>
+        get() = _shouldDisplayItemsListScreen
+
     fun getFolder(id: Int) {
         viewModelScope.launch {
             _currentFolder.value = getFolderUseCase.getFolder(id)
@@ -47,8 +52,9 @@ class EditFolderViewModel(application: Application) : AndroidViewModel(applicati
         if (inputsValid) {
             viewModelScope.launch {
                 val newFolder = Folder(parseName(folderName))
-                addFolderUseCase.addFolder(newFolder)
-                exitScreen()
+                val folderId = addFolderUseCase.addFolder(newFolder)
+                //exitScreen()
+                goToItemsListScreen(getFolderUseCase.getFolder(folderId.toInt()))
             }
         }
     }
@@ -79,6 +85,11 @@ class EditFolderViewModel(application: Application) : AndroidViewModel(applicati
     fun exitScreen() {
         _shouldCloseScreen.value = Unit
     }
+
+    private fun goToItemsListScreen(folder: Folder) {
+        _shouldDisplayItemsListScreen.value = folder
+    }
+
 
     private fun parseName(inputName: String?): String {
         return inputName?.trim() ?: ""

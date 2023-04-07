@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SimpleListApp</string>
+    <string name="app_name">Simple List App</string>
     <string name="add_new_item_description">Add new item</string>
     <string name="hint_new_folder">Новый список</string>
     <string name="btn_cancel">ОТМЕНИТЬ</string>
@@ -18,5 +18,7 @@
     <string name="folder_menu_cancel">Отмена</string>
     <string name="hint_item_count">Количество</string>
     <string name="empty_folders_title">Давайте спланируем покупки</string>
+    <string name="empty_items_title">Список создан!</string>
     <string name="empty_folders_text">Нажмите на плюс, чтобы создать свой первый список</string>
+    <string name="empty_items_text">Нажмите на плюс, чтобы добавлять товары</string>
 </resources>

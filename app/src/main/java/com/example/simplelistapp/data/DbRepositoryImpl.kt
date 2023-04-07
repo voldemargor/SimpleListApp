@@ -36,8 +36,8 @@ class DbRepositoryImpl(application: Application) : Repository {
         return DbMapper.mapDbModelToEntity(dbModel)
     }
 
-    override suspend fun addFolder(folder: Folder) {
-        appDao.addFolder(DbMapper.mapEntityToDbModel(folder))
+    override suspend fun addFolder(folder: Folder) : Long {
+        return appDao.addFolder(DbMapper.mapEntityToDbModel(folder))
     }
 
     override suspend fun addItem(item: Item) {

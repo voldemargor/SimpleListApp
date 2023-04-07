@@ -12,7 +12,7 @@ interface Repository {
 
     suspend fun getItem(itemId: Int): Item
 
-    suspend fun addFolder(folder: Folder)
+    suspend fun addFolder(folder: Folder) : Long
 
     suspend fun addItem(item: Item)
 

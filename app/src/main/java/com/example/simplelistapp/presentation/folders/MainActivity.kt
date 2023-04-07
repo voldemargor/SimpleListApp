@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         binding.stopFrame.isVisible = false
+        binding.fabAddFolder.isVisible = true
     }
 
     private fun setupRecyclerView() {
@@ -114,7 +115,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun onFabAnimationFinished() {
         supportActionBar?.hide()
-        binding.fabAddFolder.isVisible = true
         binding.stopFrame.isVisible = true
         binding.animCircle.isVisible = false
         startActivity(EditFolderActivity.newIntentAddFolder(this))
