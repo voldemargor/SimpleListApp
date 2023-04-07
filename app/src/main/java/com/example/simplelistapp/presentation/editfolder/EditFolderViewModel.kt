@@ -42,8 +42,6 @@ class EditFolderViewModel(application: Application) : AndroidViewModel(applicati
     }
 
     fun addFolder(name: String?) {
-        Log.d("mylog", "Вызов viewModel.addFolder()")
-        // TODO На самом деле если ничего не ввели, то нужно просто создавать с дефолтным именем "Новый список"
         val folderName = parseName(name)
         val inputsValid = validateInput(folderName)
         if (inputsValid) {

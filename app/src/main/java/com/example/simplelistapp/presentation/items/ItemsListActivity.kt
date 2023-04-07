@@ -31,7 +31,14 @@ class ItemsListActivity : AppCompatActivity() {
         setupRecyclerView()
         observeViewModel()
         setFabListener()
+
         title = folderName
+        supportActionBar?.setDisplayHomeAsUpEnabled(true);
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 
     private fun parseIntent() {

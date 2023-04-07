@@ -1,6 +1,7 @@
 package com.example.simplelistapp.presentation.folders
 
 import android.os.Bundle
+import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
@@ -51,7 +52,9 @@ class MainActivity : AppCompatActivity() {
     private fun observeViewModel() {
         viewModel.foldersList.observe(this) {
             rvAdapter.submitList(it)
+            toggleEmptyState(it.isEmpty())
         }
+
     }
 
     private fun setOnClickListener() {
@@ -117,4 +120,13 @@ class MainActivity : AppCompatActivity() {
         startActivity(EditFolderActivity.newIntentAddFolder(this))
     }
 
+    private fun toggleEmptyState(isEmpty: Boolean) {
+        if (isEmpty) {
+            binding.rvFoldersList.visibility = View.GONE
+            binding.emptyFoldersLayout.visibility = View.VISIBLE
+        } else {
+            binding.rvFoldersList.visibility = View.VISIBLE
+            binding.emptyFoldersLayout.visibility = View.GONE
+        }
+    }
 }

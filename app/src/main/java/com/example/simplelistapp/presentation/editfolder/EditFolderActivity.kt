@@ -41,20 +41,21 @@ class EditFolderActivity : AppCompatActivity() {
         }
 
         binding.tilName.requestFocus()
+
     }
 
     private fun launchAddMode() {
         binding.btnSave.text = getString(R.string.btn_create)
         binding.btnSave.setOnClickListener() {
-            val name = binding.etName.text?.trim().toString()
+            var name = binding.etName.text?.trim().toString()
 
-            // TODO так надо будет в итоге, а пока покажу ошибку
-            // if (name.isBlank()) name = getString(R.string.defaul_folder_name)
+            if (name.isBlank()) name = getString(R.string.default_folder_name)
+            viewModel.addFolder(name)
 
-            if (name.isBlank())
-                viewModel.displayErrorInputName()
-            else
-                viewModel.addFolder(name)
+            //if (name.isBlank())
+            //    viewModel.displayErrorInputName()
+            //else
+            //    viewModel.addFolder(name)
         }
     }
 

@@ -3,6 +3,7 @@ package com.example.simplelistapp.presentation.folders
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.simplelistapp.data.DbRepositoryImpl
 import com.example.simplelistapp.domain.*
@@ -22,5 +23,7 @@ class FoldersScreenViewModel(application: Application) : AndroidViewModel(applic
             deleteFolderUseCase.deleteFolder(folder)
         }
     }
+
+
 
 }
