@@ -6,19 +6,23 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.simplelistapp.R
 import com.example.simplelistapp.databinding.ActivityMainBinding
-import com.example.simplelistapp.domain.Folder
 import com.example.simplelistapp.presentation.editfolder.EditFolderActivity
 import com.example.simplelistapp.presentation.items.ItemsListActivity
 import com.example.simplelistapp.presentation.startAnimation
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: FoldersScreenViewModel
+    //private lateinit var viewModel: FoldersScreenViewModel
+
+    //private val vm by viewModel<FoldersScreenViewModel>()
+    private val vm by inject<FoldersScreenViewModel>()
+
     private lateinit var rvAdapter: FoldersListAdapter
     private lateinit var binding: ActivityMainBinding
 
@@ -27,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel = ViewModelProvider(this).get(FoldersScreenViewModel::class.java)
+        //viewModel = ViewModelProvider(this).get(FoldersScreenViewModel::class.java)
 
         setupRecyclerView()
         observeViewModel()
@@ -51,7 +55,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun observeViewModel() {
-        viewModel.foldersList.observe(this) {
+        vm.foldersList.observe(this) {
             rvAdapter.submitList(it)
             toggleEmptyState(it.isEmpty())
         }
@@ -90,7 +94,7 @@ class MainActivity : AppCompatActivity() {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val folder = rvAdapter.currentList[viewHolder.adapterPosition]
-                viewModel.deleteFolder(folder)
+                vm.deleteFolder(folder)
             }
         }
 
