@@ -1,6 +1,7 @@
 package com.example.simplelistapp.presentation.folders
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AnimationUtils
@@ -11,23 +12,36 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.simplelistapp.R
 import com.example.simplelistapp.databinding.ActivityMainBinding
-import com.example.simplelistapp.domain.Folder
+import com.example.simplelistapp.domain.AddFolderUseCase
+import com.example.simplelistapp.domain.Repository
 import com.example.simplelistapp.presentation.editfolder.EditFolderActivity
 import com.example.simplelistapp.presentation.items.ItemsListActivity
 import com.example.simplelistapp.presentation.startAnimation
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: FoldersScreenViewModel
+    private val viewModel by lazy { ViewModelProvider(this).get(FoldersScreenViewModel::class.java) }
+
     private lateinit var rvAdapter: FoldersListAdapter
     private lateinit var binding: ActivityMainBinding
+
+    @Inject lateinit var repository1: Repository
+    @Inject lateinit var repository2: Repository
+    @Inject lateinit var addFolderUseCase: AddFolderUseCase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel = ViewModelProvider(this).get(FoldersScreenViewModel::class.java)
+        Log.d("mylog", "repository: $repository1")
+        Log.d("mylog", "repository: $repository2")
+        Log.d("mylog", "addFolderUseCase: $addFolderUseCase")
+
+        viewModel.initFoldersLD()
 
         setupRecyclerView()
         observeViewModel()
@@ -55,7 +69,6 @@ class MainActivity : AppCompatActivity() {
             rvAdapter.submitList(it)
             toggleEmptyState(it.isEmpty())
         }
-
     }
 
     private fun setOnClickListener() {

@@ -1,6 +1,8 @@
 package com.example.simplelistapp.domain
 
-class EditItemUseCase(private val repository: Repository) {
+import javax.inject.Inject
+
+class EditItemUseCase @Inject constructor(private val repository: Repository) {
 
     suspend fun editItem(item: Item) {
         repository.editItem(item)

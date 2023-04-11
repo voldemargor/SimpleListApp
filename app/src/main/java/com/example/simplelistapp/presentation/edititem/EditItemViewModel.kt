@@ -1,22 +1,23 @@
 package com.example.simplelistapp.presentation.edititem
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.simplelistapp.data.DbRepositoryImpl
 import com.example.simplelistapp.domain.*
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class EditItemViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class EditItemViewModel @Inject constructor() : ViewModel() {
 
-    private val repository = DbRepositoryImpl(application)
-    private val getItemUseCase = GetItemUseCase(repository)
-    private val addItemUseCase = AddItemUseCase(repository)
-    private val editItemUseCase = EditItemUseCase(repository)
-    private val getFolderUseCase = GetFolderUseCase(repository)
-    private val editFolderUseCase = EditFolderUseCase(repository)
+    //private val repository = DbRepositoryImpl(application)
+    @Inject lateinit var getItemUseCase: GetItemUseCase
+    @Inject lateinit var addItemUseCase: AddItemUseCase
+    @Inject lateinit var editItemUseCase: EditItemUseCase
+    @Inject lateinit var getFolderUseCase: GetFolderUseCase
+    @Inject lateinit var editFolderUseCase: EditFolderUseCase
 
     // Ошибка ввода названия
     private val _errorInputName = MutableLiveData<Boolean>()

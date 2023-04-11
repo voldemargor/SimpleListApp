@@ -1,24 +1,23 @@
 package com.example.simplelistapp.presentation.editfolder
 
-import android.app.Application
-import android.util.Log
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.simplelistapp.data.DbRepositoryImpl
 import com.example.simplelistapp.domain.AddFolderUseCase
 import com.example.simplelistapp.domain.EditFolderUseCase
 import com.example.simplelistapp.domain.Folder
 import com.example.simplelistapp.domain.GetFolderUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class EditFolderViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class EditFolderViewModel @Inject constructor() : ViewModel() {
 
-    private val repository = DbRepositoryImpl(application)
-    private val getFolderUseCase = GetFolderUseCase(repository)
-    private val addFolderUseCase = AddFolderUseCase(repository)
-    private val editFolderUseCase = EditFolderUseCase(repository)
+    @Inject lateinit var getFolderUseCase: GetFolderUseCase
+    @Inject lateinit var addFolderUseCase: AddFolderUseCase
+    @Inject lateinit var editFolderUseCase: EditFolderUseCase
 
     // Ошибка ввода названия
     private val _errorInputName = MutableLiveData<Boolean>()

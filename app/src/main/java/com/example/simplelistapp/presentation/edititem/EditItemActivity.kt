@@ -13,11 +13,13 @@ import com.example.simplelistapp.R
 import com.example.simplelistapp.databinding.ActivityEditItemBinding
 import com.example.simplelistapp.domain.Folder
 import com.example.simplelistapp.domain.Item
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class EditItemActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityEditItemBinding
-    private lateinit var viewModel: EditItemViewModel
+    private val viewModel by lazy { ViewModelProvider(this).get(EditItemViewModel::class.java) }
 
     private var screenMode = MODE_UNKNOWN
     private var itemId = Item.UNDEFINED_ID
@@ -32,8 +34,6 @@ class EditItemActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         parseIntent()
-
-        viewModel = ViewModelProvider(this).get(EditItemViewModel::class.java)
 
         observeCommonViewModel()
         addCommonListeners()

@@ -1,29 +1,34 @@
 package com.example.simplelistapp.presentation.folders
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.simplelistapp.data.DbRepositoryImpl
-import com.example.simplelistapp.domain.*
+import com.example.simplelistapp.domain.DeleteFolderUseCase
+import com.example.simplelistapp.domain.Folder
+import com.example.simplelistapp.domain.GetFoldersListUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class FoldersScreenViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class FoldersScreenViewModel @Inject constructor() : ViewModel() {
 
-    private val repository = DbRepositoryImpl(application)
+    @Inject lateinit var getFoldersListUseCase: GetFoldersListUseCase
+    @Inject lateinit var deleteFolderUseCase: DeleteFolderUseCase
 
-    private val getFoldersListUseCase = GetFoldersListUseCase(repository)
-    private val deleteFolderUseCase = DeleteFolderUseCase(repository)
+    lateinit var foldersList: LiveData<List<Folder>>
 
-    val foldersList = getFoldersListUseCase.getFoldersList()
+    fun initFoldersLD() {
+        viewModelScope.launch {
+            foldersList = getFoldersListUseCase.getFoldersList()
+        }
+    }
 
     fun deleteFolder(folder: Folder) {
         viewModelScope.launch {
             deleteFolderUseCase.deleteFolder(folder)
         }
     }
-
 
 
 }

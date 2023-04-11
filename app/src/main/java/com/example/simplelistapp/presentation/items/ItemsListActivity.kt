@@ -11,12 +11,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.simplelistapp.databinding.ActivityItemsListBinding
 import com.example.simplelistapp.domain.Folder
 import com.example.simplelistapp.presentation.edititem.EditItemActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ItemsListActivity : AppCompatActivity() {
 
+    private val viewModel by lazy { ViewModelProvider(this).get(ItemsListViewModel::class.java) }
+
     private lateinit var binding: ActivityItemsListBinding
-    private lateinit var viewModelFactory: ItemsViewModelFactory
-    private lateinit var viewModel: ItemsListViewModel
     private lateinit var rvAdapter: ItemsListAdapter
 
     private var folderId = Folder.UNDEFINED_ID
@@ -55,8 +57,7 @@ class ItemsListActivity : AppCompatActivity() {
     }
 
     private fun initViewModel() {
-        viewModelFactory = ItemsViewModelFactory(folderId, application)
-        viewModel = ViewModelProvider(this, viewModelFactory).get(ItemsListViewModel::class.java)
+        viewModel.initItemsLD(folderId)
     }
 
     private fun setupRecyclerView() {

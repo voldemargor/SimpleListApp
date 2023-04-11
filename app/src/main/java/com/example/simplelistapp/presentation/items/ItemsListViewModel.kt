@@ -1,25 +1,29 @@
 package com.example.simplelistapp.presentation.items
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.simplelistapp.data.DbRepositoryImpl
 import com.example.simplelistapp.domain.*
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ItemsListViewModel(
-    application: Application,
-    private val folderId: Int
-) : AndroidViewModel(application) {
+@HiltViewModel
+class ItemsListViewModel @Inject constructor() : ViewModel() {
 
-    private val repository = DbRepositoryImpl(application)
-    private val getItemsForFolderUseCase = GetItemsForFolderUseCase(repository)
-    private val editItemUseCase = EditItemUseCase(repository)
-    private val deleteItemUseCase = DeleteItemUseCase(repository)
-    private val getFolderUseCase = GetFolderUseCase(repository)
-    private val editFolderUseCase = EditFolderUseCase(repository)
+    @Inject lateinit var getItemsForFolderUseCase: GetItemsForFolderUseCase
+    @Inject lateinit var editItemUseCase: EditItemUseCase
+    @Inject lateinit var deleteItemUseCase: DeleteItemUseCase
+    @Inject lateinit var getFolderUseCase: GetFolderUseCase
+    @Inject lateinit var editFolderUseCase: EditFolderUseCase
 
-    val itemsList = getItemsForFolderUseCase.getItemsForFolder(folderId)
+    lateinit var itemsList: LiveData<List<Item>>
+
+    fun initItemsLD(folderId: Int) {
+        viewModelScope.launch {
+            itemsList = getItemsForFolderUseCase.getItemsForFolder(folderId)
+        }
+    }
 
     fun changeEnabledState(item: Item) {
         val newItem = item.copy(enabled = !item.enabled)

@@ -11,10 +11,12 @@ import com.example.simplelistapp.R
 import com.example.simplelistapp.databinding.ActivityEditFolderBinding
 import com.example.simplelistapp.domain.Folder
 import com.example.simplelistapp.presentation.items.ItemsListActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class EditFolderActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: EditFolderViewModel
+    private val viewModel by lazy { ViewModelProvider(this).get(EditFolderViewModel::class.java) }
     private var screenMode = MODE_UNKNOWN
     private var folderId = Folder.UNDEFINED_ID
 
@@ -30,8 +32,6 @@ class EditFolderActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         parseIntent()
-
-        viewModel = ViewModelProvider(this).get(EditFolderViewModel::class.java)
 
         observeCommonViewModel()
         addCommonListeners()

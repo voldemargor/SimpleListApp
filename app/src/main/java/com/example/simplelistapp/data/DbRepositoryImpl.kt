@@ -8,8 +8,13 @@ import androidx.lifecycle.Transformations
 import com.example.simplelistapp.domain.Folder
 import com.example.simplelistapp.domain.Item
 import com.example.simplelistapp.domain.Repository
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class DbRepositoryImpl(application: Application) : Repository {
+@Singleton
+class DbRepositoryImpl @Inject constructor(
+    application: Application
+) : Repository {
 
     private val appDao = AppDatabase.getInstance(application).appDao()
 
@@ -36,7 +41,7 @@ class DbRepositoryImpl(application: Application) : Repository {
         return DbMapper.mapDbModelToEntity(dbModel)
     }
 
-    override suspend fun addFolder(folder: Folder) : Long {
+    override suspend fun addFolder(folder: Folder): Long {
         return appDao.addFolder(DbMapper.mapEntityToDbModel(folder))
     }
 
