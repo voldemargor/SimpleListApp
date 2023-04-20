@@ -7,6 +7,9 @@ import android.graphics.PorterDuff
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.KeyEvent
+import android.view.inputmethod.EditorInfo
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.simplelistapp.R
@@ -28,8 +31,7 @@ class EditItemActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityEditItemBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        binding = ActivityEditItemBinding.inflate(layoutInflater).also { setContentView(it.root) }
 
         supportActionBar?.hide()
 
@@ -74,7 +76,6 @@ class EditItemActivity : AppCompatActivity() {
         binding.etCount.setText(null)
         binding.btnSave.setOnClickListener() {
             val name = binding.etName.text?.trim().toString()
-
             if (name.isBlank())
                 viewModel.displayErrorInputName()
             else
@@ -98,9 +99,8 @@ class EditItemActivity : AppCompatActivity() {
             val name = binding.etName.text?.trim().toString()
             if (name.isBlank())
                 viewModel.displayErrorInputName()
-            else {
+            else
                 viewModel.editItem(name, count)
-            }
         }
     }
 

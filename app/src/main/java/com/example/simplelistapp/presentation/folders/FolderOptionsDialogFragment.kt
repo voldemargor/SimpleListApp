@@ -51,6 +51,7 @@ class FolderOptionsDialogFragment : BottomSheetDialogFragment() {
 
     companion object {
         private const val KEY_FOLDER = "folder_obj"
+        const val TAG = "dialog_tag"
         fun newInstance(folder: Folder) = FolderOptionsDialogFragment()
             .apply {
                 arguments = Bundle().apply {

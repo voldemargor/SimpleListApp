@@ -21,18 +21,15 @@ class EditItemViewModel @Inject constructor() : ViewModel() {
 
     // Ошибка ввода названия
     private val _errorInputName = MutableLiveData<Boolean>()
-    val errorInputName: LiveData<Boolean>
-        get() = _errorInputName
+    val errorInputName: LiveData<Boolean> get() = _errorInputName
 
     // Выбранный Item
     private val _currentItem = MutableLiveData<Item>()
-    val currentItem: LiveData<Item>
-        get() = _currentItem
+    val currentItem: LiveData<Item> get() = _currentItem
 
     // Закрыть экран
     private val _shouldCloseScreen = MutableLiveData<Unit>()
-    val shouldCloseScreen: LiveData<Unit>
-        get() = _shouldCloseScreen
+    val shouldCloseScreen: LiveData<Unit> get() = _shouldCloseScreen
 
     fun getItem(id: Int) {
         viewModelScope.launch {

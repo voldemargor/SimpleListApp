@@ -21,23 +21,19 @@ class EditFolderViewModel @Inject constructor() : ViewModel() {
 
     // Ошибка ввода названия
     private val _errorInputName = MutableLiveData<Boolean>()
-    val errorInputName: LiveData<Boolean>
-        get() = _errorInputName
+    val errorInputName: LiveData<Boolean> get() = _errorInputName
 
     // Выбранный Folder
     private val _currentFolder = MutableLiveData<Folder>()
-    val currentFolder: LiveData<Folder>
-        get() = _currentFolder
+    val currentFolder: LiveData<Folder> get() = _currentFolder
 
     // Закрыть экран
     private val _shouldCloseScreen = MutableLiveData<Unit>()
-    val shouldCloseScreen: LiveData<Unit>
-        get() = _shouldCloseScreen
+    val shouldCloseScreen: LiveData<Unit> get() = _shouldCloseScreen
 
     // Перейти внутрь списка
     private val _shouldDisplayItemsListScreen = MutableLiveData<Folder>()
-    val shouldDisplayItemsListScreen: LiveData<Folder>
-        get() = _shouldDisplayItemsListScreen
+    val shouldDisplayItemsListScreen: LiveData<Folder> get() = _shouldDisplayItemsListScreen
 
     fun getFolder(id: Int) {
         viewModelScope.launch {

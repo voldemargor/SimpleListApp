@@ -26,8 +26,7 @@ class ItemsListActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityItemsListBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        binding = ActivityItemsListBinding.inflate(layoutInflater).also { setContentView(it.root) }
 
         parseIntent()
         initViewModel()
@@ -36,7 +35,8 @@ class ItemsListActivity : AppCompatActivity() {
         setFabListener()
 
         title = folderName
-        supportActionBar?.setDisplayHomeAsUpEnabled(true);
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
     }
 
     override fun onSupportNavigateUp(): Boolean {
