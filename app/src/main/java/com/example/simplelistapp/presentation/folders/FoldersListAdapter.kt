@@ -13,7 +13,6 @@ class FoldersListAdapter : ListAdapter<Folder, FoldersListAdapter.FolderViewHold
 
     var onFolderClickListener: ((Folder) -> Unit)? = null
     var onFolderLongClickListener: ((Folder) -> Unit)? = null
-
     var onFolderMenuClickListener: ((Folder) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FolderViewHolder {

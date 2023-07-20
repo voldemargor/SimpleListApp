@@ -14,7 +14,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 class FolderOptionsDialogFragment : BottomSheetDialogFragment() {
 
     private var _binding: FragmentFolderOptionsBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = _binding ?: throw RuntimeException("field is NULL")
 
     private lateinit var folder: Folder
     private lateinit var viewModel: FolderOptionsDialogViewModel
