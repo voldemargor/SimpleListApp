@@ -1,3 +1,24 @@
 <resources>
-    <string name="app_name">SimpleListApp</string>
+    <string name="app_name">Simple List App</string>
+    <string name="add_new_item_description">Add new item</string>
+    <string name="hint_new_folder">Новый список</string>
+    <string name="btn_cancel">ОТМЕНИТЬ</string>
+    <string name="btn_save">СОХРАНИТЬ</string>
+    <string name="btn_create">СОЗДАТЬ</string>
+    <string name="btn_add">ДОБАВИТЬ</string>
+    <string name="error_folder_name">Введите название списка</string>
+    <string name="error_item_name">Введите название</string>
+    <string name="default_folder_name">Новый список</string>
+    <string name="fab_add_folder">+ НОВЫЙ СПИСОК</string>
+    <string name="fab_add_item">+ ДОБАВИТЬ</string>
+    <string name="hint_new_item">Добавить элемент списка</string>
+    <string name="folder_menu_title">Управление списком</string>
+    <string name="folder_menu_rename">ПЕРЕИМЕНОВАТЬ</string>
+    <string name="folder_menu_delete">УДАЛИТЬ</string>
+    <string name="folder_menu_cancel">Отмена</string>
+    <string name="hint_item_count">Количество</string>
+    <string name="empty_folders_title">Давайте спланируем покупки</string>
+    <string name="empty_items_title">Список создан!</string>
+    <string name="empty_folders_text">Нажмите на плюс, чтобы создать свой первый список</string>
+    <string name="empty_items_text">Нажмите на плюс, чтобы добавлять товары</string>
 </resources>
