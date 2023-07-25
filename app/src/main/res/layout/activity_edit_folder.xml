@@ -21,6 +21,7 @@
             android:layout_height="70dp"
             android:textColor="@color/text_item_enabled"
             android:layout_marginBottom="20dp"
+            android:maxLength="@integer/max_folder_name_length"
             android:background="@drawable/rounded_16dp"
             android:backgroundTint="@color/white"
             android:hint="@string/hint_new_folder"
