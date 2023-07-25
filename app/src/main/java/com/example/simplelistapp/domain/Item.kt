@@ -8,9 +8,9 @@ data class Item(
     var id: Int = UNDEFINED_ID
 ) {
 
-    override fun toString(): String {
-        return name
-    }
+//    override fun toString(): String {
+//        return name
+//    }
 
     companion object {
         const val UNDEFINED_ID = 0

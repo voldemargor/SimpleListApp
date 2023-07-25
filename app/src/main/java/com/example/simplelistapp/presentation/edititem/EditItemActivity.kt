@@ -2,14 +2,9 @@ package com.example.simplelistapp.presentation.edititem
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.PorterDuff
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.KeyEvent
-import android.view.inputmethod.EditorInfo
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.simplelistapp.R
@@ -17,6 +12,7 @@ import com.example.simplelistapp.databinding.ActivityEditItemBinding
 import com.example.simplelistapp.domain.Folder
 import com.example.simplelistapp.domain.Item
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.math.abs
 
 @AndroidEntryPoint
 class EditItemActivity : AppCompatActivity() {
@@ -27,7 +23,7 @@ class EditItemActivity : AppCompatActivity() {
     private var screenMode = MODE_UNKNOWN
     private var itemId = Item.UNDEFINED_ID
     private var folderId = Folder.UNDEFINED_ID
-    private var count = 0
+    private var countInputted = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,6 +59,7 @@ class EditItemActivity : AppCompatActivity() {
                     throw RuntimeException("Param ITEM ID is absent")
                 itemId = intent.getIntExtra(EXTRA_ITEM_ID, Item.UNDEFINED_ID)
             }
+
             MODE_ADD -> {
                 if (!intent.hasExtra(EXTRA_FOLDER_ID))
                     throw RuntimeException("Param FOLDER ID is absent")
@@ -75,11 +72,11 @@ class EditItemActivity : AppCompatActivity() {
         binding.btnSave.text = getString(R.string.btn_add)
         binding.etCount.setText(null)
         binding.btnSave.setOnClickListener() {
-            val name = binding.etName.text?.trim().toString()
-            if (name.isBlank())
+            val input = getFieldsInput()
+            if (input.name.isBlank())
                 viewModel.displayErrorInputName()
             else
-                viewModel.addItem(folderId, name, count)
+                viewModel.addItem(folderId, input.name, input.count)
         }
     }
 
@@ -90,17 +87,18 @@ class EditItemActivity : AppCompatActivity() {
         viewModel.currentItem.observe(this) {
             binding.etName.setText(it.name)
             binding.etName.setSelection(binding.etName.length())
-            count = it.count
+            binding.etCount.setText(it.count.toString())
+            countInputted = it.count
 
-            updateCountViews()
+            refreshCountView()
         }
 
         binding.btnSave.setOnClickListener() {
-            val name = binding.etName.text?.trim().toString()
-            if (name.isBlank())
+            val input = getFieldsInput()
+            if (input.name.isBlank())
                 viewModel.displayErrorInputName()
             else
-                viewModel.editItem(name, count)
+                viewModel.editItem(input.name, input.count)
         }
     }
 
@@ -117,7 +115,8 @@ class EditItemActivity : AppCompatActivity() {
     }
 
     private fun addCommonListeners() {
-        binding.etName.addTextChangedListener(object : TextWatcher {
+
+        val nameFieldListener = object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -125,34 +124,65 @@ class EditItemActivity : AppCompatActivity() {
             }
 
             override fun afterTextChanged(p0: Editable?) {}
-        })
+        }
+        binding.etName.addTextChangedListener(nameFieldListener)
+
+        val countFieldListener = object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                countInputted = parseCount()
+            }
+
+            override fun afterTextChanged(p0: Editable?) {}
+        }
+        binding.etCount.addTextChangedListener(countFieldListener)
 
         binding.btnCancel.setOnClickListener() {
             viewModel.exitScreen()
         }
 
         binding.btnAddCount.setOnClickListener() {
-            count++
-            updateCountViews()
+            countInputted++
+            refreshCountView()
+            binding.etCount.setSelection(binding.etCount.length())
         }
 
         binding.btnRemoveCount.setOnClickListener() {
-            if (count > 0) {
-                count--
-                updateCountViews()
+            if (countInputted > 0) {
+                countInputted--
+                refreshCountView()
+                binding.etCount.setSelection(binding.etCount.length())
             }
         }
     }
 
-    private fun updateCountViews() {
-        if (count == 0) {
+    private fun refreshCountView() {
+        if (countInputted == 0) {
             binding.etCount.setText(null)
             binding.btnRemoveCount.setBackgroundResource(R.drawable.ic_baseline_remove_circle_disabled_24)
         } else {
-            binding.etCount.setText(count.toString())
+            binding.etCount.setText(countInputted.toString())
             binding.btnRemoveCount.setBackgroundResource(R.drawable.ic_baseline_remove_circle_24)
         }
     }
+
+    private fun getFieldsInput(): FieldsInput {
+        val name = binding.etName.text?.trim().toString()
+        return FieldsInput(name, parseCount())
+    }
+
+    private fun parseCount(): Int {
+        var count = 0
+        val countExtracted = binding.etCount.text?.filter { it.isDigit() } ?: ""
+        if (countExtracted.isNotEmpty()) {
+            count += abs(countExtracted.toString().toInt())
+            count.coerceIn(0, 999)
+        }
+        return count
+    }
+
+    inner class FieldsInput(val name: String, val count: Int)
 
     companion object {
         private const val EXTRA_SCREEN_MODE = "screen_mode"
