@@ -16,41 +16,54 @@
         app:cardElevation="0dp"
         app:cardUseCompatPadding="true">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:paddingTop="1dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="11dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="12dp"
             android:orientation="horizontal">
 
             <CheckBox
                 android:id="@+id/checkbox_item"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
+                android:gravity="top"
                 android:buttonTint="@color/text_item_disabled"
                 android:checked="true"
-                android:scaleX="1.2"
-                android:scaleY="1.2" />
+                android:scaleX="1"
+                android:scaleY="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tv_item_name"
                 style="@style/Text.Item.Name.Disabled"
+                app:layout_constraintStart_toEndOf="@id/checkbox_item"
+                app:layout_constraintEnd_toStartOf="@id/tv_item_count"
+                app:layout_constraintTop_toTopOf="parent"
                 android:layout_width="0dp"
+                android:paddingTop="1dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="14dp"
                 android:layout_weight="1"
-                tools:text="Йогурт" />
+                android:ellipsize="end"
+                android:maxLines="4"
+                tools:text="В этой серии статей я расскажу о внутреннем устройстве Android о процессе загрузки, о содержимом файловой системы, о Binder и Android Runtime" />
 
             <TextView
                 android:id="@+id/tv_item_count"
                 style="@style/Text.Item.Name.Disabled"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
                 android:layout_marginEnd="10dp"
+                android:paddingTop="1dp"
                 tools:text="2" />
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
 </layout>
