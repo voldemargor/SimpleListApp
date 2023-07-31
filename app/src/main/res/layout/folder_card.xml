@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp"
+        android:layout_marginTop="-2dp"
         android:layout_marginEnd="0dp"
         android:layout_marginBottom="-24dp"
         app:cardCornerRadius="8dp"
@@ -20,46 +20,45 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingBottom="8dp">
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="6dp">
 
-            <LinearLayout
-                android:id="@+id/linear_layout"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/tv_folder_name"
+                style="@style/TextFolderName"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="18dp"
-                android:orientation="horizontal"
-                android:paddingBottom="6dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="18dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="4"
+                app:layout_constraintEnd_toStartOf="@id/tv_folder_count"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:layout_editor_absoluteX="18dp"
-                tools:layout_editor_absoluteY="17dp">
+                tools:text="Йогурт" />
 
-                <TextView
-                    android:id="@+id/tv_folder_name"
-                    style="@style/TextFolderName"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    tools:text="Йогурт" />
+            <TextView
+                android:id="@+id/tv_folder_count"
+                style="@style/Text.Folder.Count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="1/2" />
 
-                <TextView
-                    android:id="@+id/tv_folder_count"
-                    style="@style/Text.Folder.Count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="1/2" />
-
-            </LinearLayout>
-
-            <View
+            <ImageView
                 android:id="@+id/btn_folder_menu"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginEnd="2dp"
-                android:backgroundTint="@color/btn_green_bg"
                 android:background="@drawable/ic_baseline_more_horiz_24"
-                app:layout_constraintEnd_toEndOf="@id/linear_layout"
-                app:layout_constraintTop_toBottomOf="@id/linear_layout" />
+                android:backgroundTint="@color/btn_green_bg"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_folder_name" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
